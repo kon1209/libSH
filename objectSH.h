@@ -11,6 +11,7 @@ public:
  void **p;
  virtual void process() = 0; 
  virtual void connect() = 0; 
+  virtual byte * readByte(byte id) = 0; 
 };
 
 #endif
