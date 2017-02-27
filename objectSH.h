@@ -3,15 +3,10 @@
 
 #include "Arduino.h"
 class objectSH{
-	protected:
-	bool connected = false;
-//	static byte b;
-	//registerObj
+
 public:
- void **p;
  virtual void process() = 0; 
- virtual void connect() = 0; 
-  virtual byte * readByte(byte id) = 0; 
+ virtual void * getAddr(byte attrId) =0;
 };
 
 #endif

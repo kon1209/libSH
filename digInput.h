@@ -8,8 +8,8 @@ class digitalInput:public Input{
   byte value; 
   public:
   digitalInput(byte pinNum);
-  void  process();  
-  void connect();
+  void process() ;
+  void * getAddr(byte attrId);
 
 };
 

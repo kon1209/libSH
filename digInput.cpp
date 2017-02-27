@@ -9,24 +9,9 @@
     value =  digitalRead(pin);
   } 
 
- void digitalInput::connect(){
-	byte * t;
-
-	if(!connected){
-	p=malloc(2*sizeof( byte *));
-	connected = true; 
-	*p = &pin;
-	t=*p;t+=sizeof( byte *);
-	t = &value;
-	}
+ void  * digitalInput::getAddr(byte attrId){
+	if(attrId == 0) return &pin;
+	else return &value;	
   }   
 
-  /*
-   byte * digitalInput::read(){
-  return  value;
-  }
-  
-  void digitalInput:: write(const byte * val){
-  }
-*/
 
