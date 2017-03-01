@@ -10,13 +10,13 @@
 class Input : public virtual objectSH{
  protected: byte pin;
   public:
-  Input(byte pinNum);  
+  Input();  
 };
 
 class digitalInput:public Input{ 
   byte value; 
   public:
-  digitalInput(byte pinNum);
+  digitalInput();
   void process() ;
   void * getAddr(byte attrId);
 };
