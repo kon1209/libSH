@@ -1,12 +1,32 @@
-#ifndef Input_h // если библиотека Button не подключена
-#define Input_h // тогда подключаем ее
+#ifndef Output_h // если библиотека Button не подключена
+#define Output_h // тогда подключаем ее
 
 #include "Arduino.h"
-class Output{
- protected: byte pin;
+#include "objectSH.h"
+
+#define DO_PIN 1
+#define DO_VALUE 2
+
+
+class Output:public virtual objectSH{
+ protected:
+    byte pin;
   public:
-  Output(byte pinNum);
-  void process();    
+  Output();
 };
+
+class digitalOutput:public Output{ 
+  private:
+   void refresh();
+    byte value; 
+  public:
+    digitalOutput();
+    void process() ;
+    void * getAddr(byte attrId);
+};
+
+
+
+
 
 #endif

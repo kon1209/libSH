@@ -1,4 +1,6 @@
 #include <objectSH.h>
 #include <input.h>
-#include <digInput.h>
+#include <output.h>
+#include <connector.h>
+
 

@@ -2,11 +2,15 @@
 #define ObjectSH_h  
 
 #include "Arduino.h"
-class objectSH{
 
+#define OBJ_STATE 0
+
+class objectSH{
 public:
- virtual void process() = 0; 
+ byte state=0;
  virtual void * getAddr(byte attrId) =0;
+ virtual void process() = 0; 
+ 
 };
 
 #endif
