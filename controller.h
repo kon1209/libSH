@@ -7,9 +7,27 @@
 #define DI_PIN 1
 #define DI_VALUE 2
 
+
+#define NEW 1
+#define SET 2
+#define GET 3
+#define SETA 4
+#define GETA 5
+//#define 
+
+class Command{
+public:
+	byte code;
+	byte spec;
+	byte objId;
+	byte attrId;
+	unsigned long value;
+	};
+
 class Controller : public virtual objectSH{
 private:
    objectSH * objList;
+	
 
 // protected: byte pin;
   public:
