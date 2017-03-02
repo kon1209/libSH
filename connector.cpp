@@ -6,12 +6,7 @@ Connector::Connector(){
    } 
    
   void Connector::process(){
-  switch (state )
- {
- 	case 0:  *(byte *)dest = *(byte *)src;
-	case 1:  *(word *)dest = *(word *)src;
-  }   
-  
+  setValue(src,dest,state);
   } 
 
  void  * Connector::getAddr(byte attrId){

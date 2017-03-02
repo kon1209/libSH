@@ -7,7 +7,7 @@
 #define DI_PIN 1
 #define DI_VALUE 2
 
-class Input : public virtual objectSH{
+class Input : public  objectSH{
  protected: byte pin;
   public:
   Input(byte pinNum);  

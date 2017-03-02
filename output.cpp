@@ -1,6 +1,5 @@
 #include "Arduino.h"
 #include "output.h"
-
    Output::Output(){
     }
 		
