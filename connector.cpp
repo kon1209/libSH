@@ -6,7 +6,7 @@ Connector::Connector(){
    } 
    
   void Connector::process(){
-  setValue(src,dest,state);
+   setValue(src,dest,type);
   } 
 
  void  * Connector::getAddr(byte attrId){
@@ -15,6 +15,7 @@ Connector::Connector(){
  	case OBJ_STATE: return &state;
 	case CONN_SRC: return &src;
 	case CONN_DEST: return &dest;	
+	case CONN_TYPE: return &type;
 	
   }   
   }

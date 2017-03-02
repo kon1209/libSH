@@ -12,6 +12,7 @@
 class objectSH{
 protected:
  void setValue(byte * srcA, byte * dstA, byte type);
+ //void getValue(byte * srcA, byte * dstA, byte type);
 public:
  byte state=0;
  //void setValue(byte * srcA, byte * dstA, byte type);

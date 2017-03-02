@@ -10,8 +10,8 @@
 
 class Connector : public virtual objectSH{
  protected:
-     void * src;
-	 void * dest;
+     void * src = &type;
+	 void * dest = &type;
   public:
     byte type;
     Connector();
