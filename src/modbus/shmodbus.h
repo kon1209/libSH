@@ -2,10 +2,10 @@
 #define MBSH_H
 
 #include "shobject.h"
-#include <Modbus.h>
-#include <ModbusSerial.h>
+#include "minModbus.h"
+#include "minModbusSerial.h"
 
-class ModbusSmartHome: public SmartHomeObject,public ModbusSerial {
+class ModbusSmartHome: public SmartHomeObject,public minModbusSerial {
   protected:
 
   public:
