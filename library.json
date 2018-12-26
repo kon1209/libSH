@@ -1,0 +1,21 @@
+{
+  "name": "libSH",
+  "keywords": "SmartHome, Modbus,SmartBus, Network",
+  "description": "Smart Home Library",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/kon1209/libSH.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Konstantin Yarmolenko",
+      "email": "kon1209@mail.ru",
+      "maintainer": true
+    }
+  ],
+  "version": "0.5.0",
+  "frameworks": "arduino, mbed",
+  "platforms": "atmelavr, atmelsam, espressif8266, intel_arc32, nordicnrf51, nxplpc, ststm32, teensy"
+}

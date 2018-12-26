@@ -17,7 +17,9 @@ SmartHomeController::SmartHomeController(void){
                           pObj = (SmartHomeObject *) new SHConsole(params[1], params[2]);
                         break;
                    case SHO_MBS: 
-                         pObj = (SmartHomeObject *) new ModbusSmartHome(params[1],params[2],params[3],params[4]);                     
+                        #if defined SH_USE_MODBUS
+                         pObj = (SmartHomeObject *) new ModbusSmartHome(params[1],params[2],params[3],params[4]);  
+                        #endif
                          break; 
                     case SHO_I2E:
                           pObj = (SmartHomeObject *) new I2CExpander(params[1]);

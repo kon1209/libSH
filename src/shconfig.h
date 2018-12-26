@@ -1,6 +1,7 @@
 #ifndef SHCONF_H
 #define SHCONF_H
 
+#define SH_USE_MODBUS 1
 
 #include "shobject.h"
 #include "io/shio.h"
@@ -9,7 +10,9 @@
 #include "io/shdimmer.h"
 #include "console/shconsole.h"
 #include "shcont.h"
-#include "modbus/shmodbus.h"
+#if defined SH_USE_MODBUS
+  #include "modbus/shmodbus.h" 
+#endif
 #include "shbuffer.h"
 #include "sheeprom.h"
 #include "logic/shlogic.h"
