@@ -29,7 +29,7 @@ void Button::process(){
    pinValue = pController -> sendMsg(SH_MSG_READ_VALUE,vProv,0);
   //button pressed
   if (_state == B_PRESSED){
-        if(pinValue){
+        if(!pinValue){
            _state = B_RELEASED;
            _timePressed = millis() - _timePressed;
            if ( _timePressed > BTN_PRESSED){            
@@ -43,7 +43,7 @@ void Button::process(){
   }
   else//button released
   {
-    if(!pinValue)
+    if(pinValue)
     {
       _state = B_PRESSED;
       _timePressed = millis();
