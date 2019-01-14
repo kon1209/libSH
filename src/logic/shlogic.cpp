@@ -1,4 +1,5 @@
 #include "shlogic.h"
+#include "shcont.h"
 
 void logicStatement::process(void)
 {

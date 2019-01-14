@@ -9,14 +9,14 @@
 
 class Pin: public SmartHomeObject {
 	protected:
-		byte _pinNum;
+		//byte _pinNum;
     SmartHomeObjAddr vProv;
 	public:
-	Pin(SmartHomeObjId providerId, byte pinNum, byte pinType);
+	Pin(SmartHomeObjAddr providerAddr, byte pinType);
 	Pin(word * params);
     virtual SmartHomeObjValue readValue(byte valId);
     virtual void writeValue(byte valId, SmartHomeObjValue shVal);
-	virtual void process(void){readValue(_pinNum);};
+	virtual void process(void){/*readValue(_pinNum);*/};
 };
 
 #define BLK_STATE_RUN 1
@@ -28,7 +28,7 @@ class Blinker: public Pin {
     word _duration;
     long _startTime;
   public:
-    Blinker(SmartHomeObjId providerId, byte pinNum, byte outType);
+    Blinker(SmartHomeObjAddr providerAddr, byte outType);
     Blinker(word * params);
    virtual void writeValue(byte valId, SmartHomeObjValue shVal);   
    virtual void process(void);

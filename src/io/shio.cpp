@@ -3,14 +3,14 @@
 #include "shcont.h"
 
 //Pin object
-Pin::Pin(SmartHomeObjId providerId, byte pinNum, byte pinType)
+Pin::Pin(SmartHomeObjAddr providerAddr, byte pinType)
 { 
-  _pinNum = pinNum; 
-   vProv = (providerId<<8)+pinNum;
+ // _pinNum = providerAddr &0xff; 
+   vProv = providerAddr;
   if(pinType < 3) pController->sendMsg(SH_MSG_WRITE_VALUE, vProv|0x80, pinType);
 }
 
-Pin::Pin(word * params): Pin(params[0],(byte)params[1],params[2])
+Pin::Pin(word * params): Pin(params[0],params[1])
 { 
 }
 
@@ -25,7 +25,7 @@ void Pin::writeValue(byte valId, SmartHomeObjValue shVal)
   }  
   
 //
-Blinker::Blinker(SmartHomeObjId providerId, byte pinNum, byte outType):Pin(providerId,pinNum,OUTPUT){
+Blinker::Blinker(SmartHomeObjAddr providerAddr, byte outType):Pin(providerAddr,OUTPUT){
 
    _startTime = 0;
    _duration = 0;
@@ -33,7 +33,7 @@ Blinker::Blinker(SmartHomeObjId providerId, byte pinNum, byte outType):Pin(provi
     _curr_value = _out;
 }
 
-Blinker::Blinker(word * params):Blinker(params[0],(byte)params[1],params[2]){
+Blinker::Blinker(word * params):Blinker(params[0],params[1]){
 }
 
 

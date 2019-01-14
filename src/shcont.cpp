@@ -1,8 +1,6 @@
 #include "shcont.h"
 
 
-
-
 SmartHomeController::SmartHomeController(void){
  // addObject(0,(SmartHomeObject *)this, 0);
  //  SmartHomeObject::pController = this;

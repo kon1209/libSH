@@ -4,7 +4,7 @@
 
 
 
-Dimmer::Dimmer( SmartHomeObjId inId, SmartHomeObjId outId,byte pinNum, byte blkId):Pin(outId, pinNum,OUTPUT){
+Dimmer::Dimmer( SmartHomeObjId inId, SmartHomeObjAddr outProviderAddr, byte blkId):Pin(outProviderAddr,OUTPUT){
      _state = 0;
      _outState = 0;
      _inProviderAddr = inId<<8;
@@ -13,7 +13,7 @@ Dimmer::Dimmer( SmartHomeObjId inId, SmartHomeObjId outId,byte pinNum, byte blkI
 	 }
 }
 
-Dimmer::Dimmer(word * params):Dimmer(params[0],params[1],(byte)params[2],params[3])
+Dimmer::Dimmer(word * params):Dimmer(params[0],params[1],params[2])
 {}
 
 void Dimmer::process(){

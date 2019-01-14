@@ -1,26 +1,26 @@
 
-#include "shbutton.h"
+#include "shtouchsens.h"
 #include "shcont.h"
 
 
 
-Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT){
+TouchSensor::TouchSensor(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT){
      _state = 0;
     _timePressed = 0;
      _outState = 0;
 }
 
-Button::Button(word * params):Button(params[0]){
+TouchSensor::TouchSensor(word * params):TouchSensor(params[0]){
 }
 
 
-SmartHomeObjValue Button::readValue(byte valId){
+SmartHomeObjValue TouchSensor::readValue(byte valId){
   if(valId == 0) return (SmartHomeObjValue)  _outState;
   if(valId == 1) return (SmartHomeObjValue)  _timePressed;
   return _outState;
 }
 
-void Button::process(){
+void TouchSensor::process(){
   byte pinValue;
   if( _state == B_RELEASED && _outState == B_PRESSED){
     _outState = B_RELEASED;
