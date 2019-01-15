@@ -7,7 +7,6 @@
 #include "io/shio.h"
 #include "i2c/shi2c.h"
 #include "io/shbutton.h"
-#include "io/shtouchsens.h"
 #include "io/shdimmer.h"
 #include "console/shconsole.h"
 #include "shcont.h"

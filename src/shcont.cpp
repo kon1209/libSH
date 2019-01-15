@@ -48,7 +48,10 @@ SmartHomeController::SmartHomeController(void){
                         break;
                   case SHO_SER:                        
                         pObj = (SmartHomeObject *) new SHSerial(&params[1]);                      
-                        break;                                                  
+                        break;
+                    case SHO_TRIG:                        
+                        pObj = (SmartHomeObject *) new outTrigger(&params[1]);                      
+                        break;                                
                    default:
                           return 0;
                         break;

@@ -19,6 +19,18 @@ class Pin: public SmartHomeObject {
 	virtual void process(void){/*readValue(_pinNum);*/};
 };
 
+class outTrigger: public Pin {
+	protected:
+		    byte _out;
+            SmartHomeObjAddr _inAddr;
+	public:
+	outTrigger(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr, byte outType);
+	outTrigger(word * params);
+    //virtual SmartHomeObjValue readValue(byte valId);
+    //virtual void writeValue(byte valId, SmartHomeObjValue shVal);
+	virtual void process(void);
+};
+
 #define BLK_STATE_RUN 1
 #define BLK_STATE_STOPPED 0
 class Blinker: public Pin {

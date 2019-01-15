@@ -23,14 +23,34 @@ void Pin::writeValue(byte valId, SmartHomeObjValue shVal)
 { 
   if(valId == 0) pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, shVal);
   }  
-  
+
+
+
+outTrigger::outTrigger(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr, byte outType):Pin(outProviderAddr,OUTPUT){
+    _out = outType;
+    _inAddr = inProviderAddr;
+    pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, _out);
+}
+
+outTrigger::outTrigger(word * params):outTrigger(params[0],params[1], params[2]){
+
+} 
+
+void outTrigger::process(){ 
+    SmartHomeObjValue inVal = pController->sendMsg(SH_MSG_READ_VALUE, _inAddr,0);
+    if(inVal == 1){
+    _out = !(_out);
+    pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, _out);
+    }
+    
+}
 //
 Blinker::Blinker(SmartHomeObjAddr providerAddr, byte outType):Pin(providerAddr,OUTPUT){
 
    _startTime = 0;
    _duration = 0;
    _out = outType;
-    _curr_value = _out;
+   _curr_value = _out;
 }
 
 Blinker::Blinker(word * params):Blinker(params[0],params[1]){
