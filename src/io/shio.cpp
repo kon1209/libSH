@@ -30,6 +30,7 @@ outTrigger::outTrigger(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProv
     _out = outType;
     _inAddr = inProviderAddr;
     pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, _out);
+    //pController->sendMsg(SH_MSG_WRITE_VALUE, _inAddr|0x80, INPUT_PULLUP);
 }
 
 outTrigger::outTrigger(word * params):outTrigger(params[0],params[1], params[2]){
