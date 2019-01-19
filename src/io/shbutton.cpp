@@ -4,7 +4,7 @@
 
 
 
-Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT_PULLUP){
+Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT){
      _state = 0;
     _timePressed = 0;
      _outState = 0;
