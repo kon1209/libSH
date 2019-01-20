@@ -74,6 +74,7 @@ void Blinker::writeValue(byte valId, SmartHomeObjValue shVal){
 
 void Blinker::process(){
    if(_duration){
+	// if(_blkAddr)  pController -> sendMsg(SH_MSG_WRITE_VALUE,_blkAddr,200); //_blk->writeValue(0,200);   
     if(millis()-_startTime > _duration)  { 
       _curr_value = !_curr_value;
       pController->sendMsg(SH_MSG_WRITE_VALUE, vProv,_curr_value); 

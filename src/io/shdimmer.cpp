@@ -4,35 +4,29 @@
 
 
 
-Dimmer::Dimmer( SmartHomeObjId inId, SmartHomeObjAddr outProviderAddr, byte blkId):Pin(outProviderAddr,OUTPUT){
+Dimmer::Dimmer(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr):Pin(outProviderAddr,OUTPUT){
      _state = 0;
      _outState = 0;
-     _inProviderAddr = inId<<8;
-     if(blkId) {
-		 _blkAddr = blkId<<8;
-	 }
+     _inProviderAddr = inProviderAddr;
 }
 
-Dimmer::Dimmer(word * params):Dimmer(params[0],params[1],params[2])
+Dimmer::Dimmer(word * params):Dimmer(params[0],params[1])
 {}
 
 void Dimmer::process(){
    SmartHomeObjValue btnValue;
    word currState = _outState;
    //press duration
-   if( pController -> sendMsg(SH_MSG_READ_VALUE,_inProviderAddr,0)){//button pressed
-    _trigTime = millis();
-	
-    btnValue =  pController -> sendMsg(SH_MSG_READ_VALUE,_inProviderAddr+1,0); //duration
+   btnValue =  pController -> sendMsg(SH_MSG_READ_VALUE,_inProviderAddr+1,0); //duration
+   if( btnValue >= BTN_PRESSED){//button pressed
+    _trigTime = millis();    
    switch (_state){
     case DIM_ST_OFF:
                     if(btnValue >= BTN_LONG_PRESSED){
                        _outState = DIM_VAL_MIN;
                        _state = DIM_ST_INC;
-                       if(_blkAddr)  pController -> sendMsg(SH_MSG_WRITE_VALUE,_blkAddr,200); //_blk->writeValue(0,200);
-                       break;
                     }
-                     if(btnValue >= BTN_PRESSED){
+                     else{
                        _outState = DIM_VAL_MAX;
                        _state = DIM_ST_ON;
                      }
@@ -40,10 +34,8 @@ void Dimmer::process(){
     case DIM_ST_ON:
                      if(btnValue >= BTN_LONG_PRESSED){
                        _state = DIM_ST_DEC;
-					   if(_blkAddr)  pController -> sendMsg(SH_MSG_WRITE_VALUE,_blkAddr,200); //_blk->writeValue(0,200);
-                       break;
                     }
-                     if(btnValue >= BTN_PRESSED){
+                     else {
                        _outState = 0;
                        _state = DIM_ST_OFF;
                      }
@@ -66,7 +58,6 @@ void Dimmer::process(){
 		if(millis() -_trigTime > 1000 ) {
       _state = DIM_ST_ON;	  
       _trigTime = 0;
-	  if(_blkAddr)  pController -> sendMsg(SH_MSG_WRITE_VALUE,_blkAddr,0); //_blk->writeValue(0,0);
     }
    }  
    }

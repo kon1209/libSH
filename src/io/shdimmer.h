@@ -19,10 +19,9 @@ class Dimmer: public Pin {
     byte _state;
     word _outState; 
     long _trigTime;
-	SmartHomeObjAddr _blkAddr;
     SmartHomeObjAddr _inProviderAddr;
   public:
-    Dimmer(SmartHomeObjId inId, SmartHomeObjAddr outProviderAddr, byte blkId);
+    Dimmer(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr);
     Dimmer(word * params);
     virtual SmartHomeObjValue readValue(byte valId){};
     virtual void process(void);

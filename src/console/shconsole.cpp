@@ -9,7 +9,7 @@ const funcDesc fDescs[]   ={ //objects
                    {"i2p",( SHP_EXIST | 1), SHO_I2P},                                   
                    {"pin",( SHP_EXIST | 2), SHO_PIN},
                    {"btn",( SHP_EXIST | 1), SHO_BTN},
-                   {"dim",( SHP_EXIST | 3), SHO_DIM},
+                   {"dim",( SHP_EXIST | 2), SHO_DIM},
                    {"blk",( SHP_EXIST | 2), SHO_BLK},
                    {"buff",( SHP_EXIST | 1), SHO_BUF},  
                    {"ser0",( SHP_EXIST | 1), SHO_SER}, 
