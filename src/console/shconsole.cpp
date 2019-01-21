@@ -18,7 +18,7 @@ const funcDesc fDescs[]   ={ //objects
                    //
                    {"del",( SHP_EXIST | 1), SHC_DEL},                  
                    {"ram",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_RAM},                                      
-                   {"get",( SHP_NEEDOUT | SHP_EXIST | 2), SHC_GET},
+                   {"get",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_GET},
                    {"stop",( SHP_EXIST | 1), SHC_STOP},
                    {"start",( SHP_EXIST | 1), SHC_START},                   
                    {"print",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_PRINT},                  
@@ -55,6 +55,8 @@ SHConsole::SHConsole( SmartHomeObjId inProviderId, SmartHomeObjId outProviderId)
 //
  char *i2str(int i, char *buf){
   byte l=0;
+  if (i==0)buf[l++]='0';
+  else{
   if(i<0) buf[l++]='-';
   boolean leadingZ=true;
   for(int div=10000, mod=0; div>0; div/=10){
@@ -65,6 +67,7 @@ SHConsole::SHConsole( SmartHomeObjId inProviderId, SmartHomeObjId outProviderId)
        buf[l++]=i+'0';
     }
     i=mod;
+  }
   }
   buf[l]=0;
   return buf;
@@ -113,15 +116,15 @@ void SHConsole::process(void){
                           if( lType == '.' && pObj){                          
                             lType = pTokenizer -> getToken(&ntok);
                             if(lType == TTYPE_NUMVAL){                                                        
-                                params[0]=digParam;                                           
-                                params[1]=  strtol( ntok.ptok,NULL,0);
+                                params[0]=digParam<<8;                                           
+                                params[0]+=  strtol( ntok.ptok,NULL,0);
                                 lType = pTokenizer -> getToken(&ntok);
                                 if( lType == '=')
                                 {
                                  lType = pTokenizer -> getToken(&ntok);
                                    if(lType == TTYPE_NUMVAL)
                                    {
-                                    params[2]=  strtol( ntok.ptok,NULL,0);
+                                    params[1]=  strtol( ntok.ptok,NULL,0);
                                      errOut = 0; 
                                      result = pController -> execCommand(SHC_SETC,params);
                                      break; 

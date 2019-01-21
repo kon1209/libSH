@@ -82,20 +82,22 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
                                 result = freeRam();
                                  break;                                                            
                       case SHC_SETC: 
-                                 pObj = findObject(params[0]);
-                                 if(pObj) pObj ->writeValue(params[1],params[2]);
+                                 pObj = findObject(params[0]>>8);
+                                 if(pObj) pObj ->writeValue(params[0]&0xff,params[1]);
                                  break;          
-                      case SHC_SET: 
+                      case SHC_SET: //TODO: rework - not correct
                                  pObj = findObject(params[0]>>8);
                                  pObj ->writeValue(params[0]&0xff,params[1]);
                                  break;          
                       case SHC_GET: 
-                                 pObj = findObject(params[0]);
-                                 if(pObj) result =pObj ->readValue(params[1]);
+                                 pObj = findObject(params[0]>>8);
+                                 if(pObj) result =pObj ->readValue(params[0]&0xff);
                                  break;
                       case SHC_PRINT: 
-                                 pObj = findObject(params[0]);
-                                 if(pObj) result =pObj ->readValue(params[1]);
+                                 pObj = findObject((params[0]>>8));
+                                 if(pObj){
+                                 result = pObj ->readValue((params[0]&0xff));
+                                 }
                                  break;                 
                     }
 return result;

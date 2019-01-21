@@ -111,9 +111,9 @@ byte shTokenizer::getParams(byte paramCnt, word * params)
 					return 0xE2;   
               }
              lType = getToken(&ntok);
-              if(lType == '.'){
+              if(lType == '.'){//object address via objId.valId
               lType = getToken(&ntok);
-                if(lType == TTYPE_NUMVAL) params[i+1] =  strtol( ntok.ptok,NULL,0);               
+                if(lType == TTYPE_NUMVAL) params[i] =  (params[i]<<8)+  strtol( ntok.ptok,NULL,0);               
                 else return 0xE2;
                 lType = getToken(&ntok);
               }
