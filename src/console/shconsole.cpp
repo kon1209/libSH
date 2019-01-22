@@ -21,7 +21,8 @@ const funcDesc fDescs[]   ={ //objects
                    {"get",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_GET},
                    {"stop",( SHP_EXIST | 1), SHC_STOP},
                    {"start",( SHP_EXIST | 1), SHC_START},                   
-                   {"print",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_PRINT},                  
+                   {"print",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_PRINT},  
+                   {"sbit",(  SHP_EXIST | 3), SHC_SET_BITS},				   
                    };
 
 
