@@ -32,6 +32,7 @@
 #define SHO_BTN  21
 #define SHO_BLK  22
 #define SHO_TRIG 23
+#define SHO_OPIN 24
 #define SHO_DIM  30
 #define SHO_BUF  40
 #define SHO_EEP  100

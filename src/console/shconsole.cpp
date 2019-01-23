@@ -8,6 +8,7 @@ const funcDesc fDescs[]   ={ //objects
                    {"i2e",( SHP_EXIST | 1), SHO_I2E},
                    {"i2p",( SHP_EXIST | 1), SHO_I2P},                                   
                    {"pin",( SHP_EXIST | 2), SHO_PIN},
+                   {"opin",( SHP_EXIST | 2), SHO_OPIN},				   
                    {"btn",( SHP_EXIST | 1), SHO_BTN},
                    {"dim",( SHP_EXIST | 2), SHO_DIM},
                    {"blk",( SHP_EXIST | 2), SHO_BLK},

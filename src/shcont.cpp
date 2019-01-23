@@ -43,6 +43,9 @@ SmartHomeController::SmartHomeController(void){
                    case SHO_PIN:
                         pObj = (SmartHomeObject *) new Pin(&params[1]);                      
                         break;
+                   case SHO_OPIN:
+                        pObj = (SmartHomeObject *) new outPin(&params[1]);                      
+                        break;						
                    case SHO_BUF:                        
                         pObj = (SmartHomeObject *) new SHBuffer(&params[1]);                      
                         break;

@@ -24,6 +24,14 @@ void Pin::writeValue(byte valId, SmartHomeObjValue shVal)
   if(valId == 0) pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, shVal);
   }  
 
+outPin::outPin(SmartHomeObjAddr outProviderAddr, byte outValue):Pin(outProviderAddr,OUTPUT){
+    _out = outValue;
+    pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, outValue);
+}
+
+outPin::outPin(word * params):outPin(params[0],params[1]){
+
+} 
 
 Repeater::Repeater(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr, byte outType):Pin(outProviderAddr,OUTPUT){
     _out = outType;

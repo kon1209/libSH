@@ -16,9 +16,18 @@ class Pin: public SmartHomeObject {
 	Pin(word * params);
     virtual SmartHomeObjValue readValue(byte valId);
     virtual void writeValue(byte valId, SmartHomeObjValue shVal);
-	virtual void process(void){/*readValue(_pinNum);*/};
+	//virtual void process(void){/*readValue(_pinNum);*/};
 };
 
+
+class outPin: public Pin {
+	protected:
+		    byte _out;
+	public:
+	outPin(SmartHomeObjAddr outProviderAddr, byte outValue);
+	outPin(word * params);
+
+};
 
 class Repeater: public Pin {
 	protected:
