@@ -51,13 +51,13 @@ class SHSerialTool:
 try: 
     sendStr='6=dio()\n'
     mbOut=sendStr.encode(encoding='utf_8', errors='strict')
-    eeStr="0xee.0="
+    eeDataStr="0xee.0="
     eeAddrStr="0xee.0x81="
     i=0
     for c in mbOut:
         tStr=eeAddrStr+str(i)+'\n'
         print(tStr)
-        tStr=eeAddrStr+hex(c)+'\n'
+        tStr=eeDataStr+hex(c)+'\n'
         print(tStr)
         i+=1
     quit()
