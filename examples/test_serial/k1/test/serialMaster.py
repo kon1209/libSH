@@ -36,29 +36,36 @@ class SHSerialTool:
     def readResponse(self): 
         ln = self.ser.readline()
         outStr ='Response :<=='
-        outStr =outStr + ''.join([str(chr(i)) for i in ln])
-      
+        outStr =outStr + ''.join([str(chr(i)) for i in ln])      
         return outStr   
 
-    def receivePacket(self):
- 
+    def receivePacket(self): 
         outPacket=bytearray()
         readyNum=self.ser.in_waiting
         outPacket +=  self.ser.read(1)
-
         return outPacket
 
+    #def 
 
 
 try: 
+    sendStr='6=dio()\n'
+    mbOut=sendStr.encode(encoding='utf_8', errors='strict')
+    eeStr="0xee.0="
+    eeAddrStr="0xee.0x81="
+    i=0
+    for c in mbOut:
+        tStr=eeAddrStr+str(i)+'\n'
+        print(tStr)
+        tStr=eeAddrStr+hex(c)+'\n'
+        print(tStr)
+        i+=1
+    quit()
     shCont=SHSerialTool(portName, baudrate)
     shCont.openPort()
-    time.sleep(1.0)  
- 
- 
+    time.sleep(1.0)   
     print(shCont.sendDataWithResponse('6=dio()'))
-    #ser.reset_input_buffer()      
-        
+    #ser.reset_input_buffer()              
     shCont.closePort()
 
 except IOError as e:
