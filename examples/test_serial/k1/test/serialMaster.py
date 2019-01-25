@@ -14,7 +14,7 @@ class SHSerialTool:
     def sendDataWithResponse(self,data):
         print("Command:==> ",data)
         self.sendCommand(data)
-        time.sleep(0.2) 
+        time.sleep(0.5) 
         return self.readResponse()
 
     def openPort(self):      
@@ -49,10 +49,11 @@ class SHSerialTool:
 
 
 try: 
+    '''
     sendStr='6=dio()\n'
     mbOut=sendStr.encode(encoding='utf_8', errors='strict')
     eeDataStr="0xee.0="
-    eeAddrStr="0xee.0x81="
+    eeAddrStr="0xee.0x81"
     i=0
     for c in mbOut:
         tStr=eeAddrStr+str(i)+'\n'
@@ -61,10 +62,15 @@ try:
         print(tStr)
         i+=1
     quit()
+    '''
+    eeAddrStr="0xee.0x81=0"
+    eeDataStr="0xee.0"
     shCont=SHSerialTool(portName, baudrate)
     shCont.openPort()
+    
     time.sleep(1.0)   
-    print(shCont.sendDataWithResponse('6=dio()'))
+    #print(shCont.sendDataWithResponse(eeAddrStr))
+    print(shCont.sendDataWithResponse("print("+ eeDataStr+")"))
     #ser.reset_input_buffer()              
     shCont.closePort()
 
