@@ -2,7 +2,7 @@ import serial
 import time
 #from serial import Serial
 
-portName = 'com28'
+portName = 'com4'
 baudrate = 38400
 timeoutSp=0.1 
 
@@ -22,6 +22,7 @@ class SHSerialTool:
             self.ser.close()    
         time.sleep(0.5)    
         self.ser.open()
+        time.sleep(0.5) 
         return
     
     def closePort(self):
@@ -33,7 +34,8 @@ class SHSerialTool:
         #outLength = len(mbOut)
         self.ser.write(mbOut)
     
-    def readResponse(self): 
+    def readResponse(self):         
+        #print("Number bytes read",self.ser.in_waiting )
         ln = self.ser.readline()
         outStr ='Response :<=='
         outStr =outStr + ''.join([str(chr(i)) for i in ln])      
@@ -67,10 +69,13 @@ try:
     eeDataStr="0xee.0"
     shCont=SHSerialTool(portName, baudrate)
     shCont.openPort()
-    
-    time.sleep(1.0)   
-    #print(shCont.sendDataWithResponse(eeAddrStr))
-    print(shCont.sendDataWithResponse("print("+ eeDataStr+")"))
+    print("Waiting boot ...")
+    time.sleep(2.0)   
+    print(shCont.sendDataWithResponse(eeAddrStr))
+    print(shCont.sendDataWithResponse("print("+ eeDataStr+")\n"))
+    print(shCont.sendDataWithResponse("6=dio()"))
+    print(shCont.sendDataWithResponse("7=blk(6.13,0)"))
+    print(shCont.sendDataWithResponse("7.0=500")) 
     #ser.reset_input_buffer()              
     shCont.closePort()
 
