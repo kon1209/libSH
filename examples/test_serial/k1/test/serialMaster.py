@@ -2,7 +2,7 @@ import serial
 import time
 #from serial import Serial
 
-portName = 'com4'
+portName = 'com9'
 baudrate = 38400
 timeoutSp=0.1 
 
@@ -14,7 +14,7 @@ class SHSerialTool:
     def sendDataWithResponse(self,data):
         print("Command:==> ",data)
         self.sendCommand(data)
-        time.sleep(0.5) 
+        time.sleep(0.1) 
         return self.readResponse()
 
     def openPort(self):      
@@ -47,35 +47,23 @@ class SHSerialTool:
         outPacket +=  self.ser.read(1)
         return outPacket
 
-    #def 
+    def sendFileAndExec(self, fName):
+        srcFile =  open(fName, "r")
+        for commandStr in srcFile:        
+            outStr = self.sendDataWithResponse(commandStr)
+            print(outStr)                      
+        srcFile.close() 
 
 
 try: 
-    '''
-    sendStr='6=dio()\n'
-    mbOut=sendStr.encode(encoding='utf_8', errors='strict')
-    eeDataStr="0xee.0="
-    eeAddrStr="0xee.0x81"
-    i=0
-    for c in mbOut:
-        tStr=eeAddrStr+str(i)+'\n'
-        print(tStr)
-        tStr=eeDataStr+hex(c)+'\n'
-        print(tStr)
-        i+=1
-    quit()
-    '''
+
     eeAddrStr="0xee.0x81=0"
-    eeDataStr="0xee.0"
+    eeDataStr="0xee.5"
     shCont=SHSerialTool(portName, baudrate)
     shCont.openPort()
     print("Waiting boot ...")
     time.sleep(2.0)   
-    print(shCont.sendDataWithResponse(eeAddrStr))
-    print(shCont.sendDataWithResponse("print("+ eeDataStr+")\n"))
-    print(shCont.sendDataWithResponse("6=dio()"))
-    print(shCont.sendDataWithResponse("7=blk(6.13,0)"))
-    print(shCont.sendDataWithResponse("7.0=500")) 
+    shCont.sendFileAndExec(r"e:/test/3but.txt") 
     #ser.reset_input_buffer()              
     shCont.closePort()
 

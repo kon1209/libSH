@@ -89,7 +89,7 @@ void SHConsole::process(void){
   {
   int num = strlen(_inBuff);
   if(num >2){
-     Serial.println(_inBuff);
+    // Serial.println(_inBuff);
 
     // if(_inProviderId) pController->sendMsg(SH_MSG_UPDATE_VALUE,(_inProviderId<<8),0);
     // return;
