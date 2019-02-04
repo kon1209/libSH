@@ -23,10 +23,10 @@ private:
    SHMap<SmartHomeObjId, objectDescriptor*> objMap;
    void parseConsole(void); 
    objectDescriptor * findObjectDescr(SmartHomeObjId oID);  
-   int freeRam (void);
    byte processObject(SmartHomeObjId oID, byte command);
 public:
     SmartHomeController();
+	int freeRam (void);
     void begin (){};
     SmartHomeObjValue execCommand(byte cID, word * pParamList);        
 	SmartHomeObject* createObject(SmartHomeObjId objClass, word * pParamList);
