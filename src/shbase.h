@@ -33,6 +33,7 @@
 #define SHO_BLK  22
 #define SHO_TRIG 23
 #define SHO_OPIN 24
+#define SHO_REPTR 25
 #define SHO_DIM  30
 #define SHO_BUF  40
 #define SHO_EEP  100
@@ -61,11 +62,6 @@ typedef  byte SmartHomeObjId; //
 typedef  word SmartHomeObjAddr;//1-st  objId, second valId
 typedef  byte SmartHomeMsgId; // 
 
-struct funcDesc{
-  char fName[6];
-  byte paramCnt;//ABCD - A - reserve, B -string direct param,  C-digit direct param,  D-params exists - 0000-(0 - 16) param cnt;
-  byte fId;
-};
 
 
 

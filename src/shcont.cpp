@@ -55,6 +55,9 @@ SmartHomeController::SmartHomeController(void){
                     case SHO_TRIG:                        
                         pObj = (SmartHomeObject *) new outTrigger(&params[1]);                      
                         break;                                
+				    case SHO_REPTR:                        
+                        pObj = (SmartHomeObject *) new Repeater(&params[1]);                      
+                        break;                                
                    default:
                           return 0;
                         break;

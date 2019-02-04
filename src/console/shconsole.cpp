@@ -14,16 +14,17 @@ const funcDesc fDescs[]   ={ //objects
                    {"blk",( SHP_EXIST | 2), SHO_BLK},
                    {"buff",( SHP_EXIST | 1), SHO_BUF},  
                    {"ser0",( SHP_EXIST | 1), SHO_SER}, 
-                   {"trig",( SHP_EXIST | 3), SHO_TRIG},                   
+                   {"trig",( SHP_EXIST | 3), SHO_TRIG},
+                   {"reptr",( SHP_EXIST | 2), SHO_REPTR},                  
                    //commands                                  
                    //
                    {"del",( SHP_EXIST | 1), SHC_DEL},                  
                    {"ram",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_RAM},                                      
-                   {"get",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_GET},
+                   //{"get",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_GET},
                    {"stop",( SHP_EXIST | 1), SHC_STOP},
                    {"start",( SHP_EXIST | 1), SHC_START},                   
                    {"print",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_PRINT},  
-                   {"sbit",(  SHP_EXIST | 3), SHC_SET_BITS},				   
+                   //{"sbit",(  SHP_EXIST | 3), SHC_SET_BITS},				   
                    };
 
 
