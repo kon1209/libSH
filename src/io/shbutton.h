@@ -20,5 +20,4 @@ class Button: public Pin {
 };
 
 
-
 #endif

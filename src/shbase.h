@@ -62,11 +62,4 @@ typedef  byte SmartHomeObjId; //
 typedef  word SmartHomeObjAddr;//1-st  objId, second valId
 typedef  byte SmartHomeMsgId; // 
 
-
-
-
-
-
-
-
 #endif
