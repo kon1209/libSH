@@ -136,7 +136,8 @@ void SHConsole::process(void){
                               }                           
                             //if pObj                                                              
                          }else{                        
-                            if( lType == '=' && (!pObj)){  //object definition
+                            if( lType == '=' ){
+                            if(!pObj)){  //object definition
                             lType = pTokenizer -> getToken(&ntok);
                                 if(lType==TTYPE_NAME) 
                                 {
@@ -152,9 +153,20 @@ void SHConsole::process(void){
                                 result = pController -> execCommand(SHC_NEW, params);                                 
                                 break;                          
                               }
-                            }                         
-                          } // !pobj
-                         } //if =                                                  
+                            }
+                            }else// !pobj
+                            {
+                                lType = pTokenizer -> getToken(&ntok);
+                                if(lType=="'") {
+                                    params[0]=digParam;
+                                    params[1]=ntok.ptok+1;
+                                    errOut = 0; 
+                                    result = pController -> execCommand(SHC_SET_BYTES,params); 
+                            }
+                            }
+                          }//lType 
+                         } //if =  
+                         
                         break; 
                                                           
         case TTYPE_NAME: //command                         
