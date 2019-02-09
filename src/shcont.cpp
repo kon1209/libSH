@@ -97,9 +97,11 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
                                  break;
                       case SHC_SET_BYTES: //TODO: rework - not correct
                                  pObj = findObject(params[0]);
-                                 char * pBytes =(char *) params[1];
-                                 for(int i=0; i<strlen(pBytes);i++){                                
-                                 pObj ->writeValue(i, pBytes[i]);
+                                 char * pBytes;
+								 pBytes=(char *) (params[1]);
+                                 for(int i=0; i<strlen(pBytes);i++){
+									if(pBytes[i]=='"')break;
+									pObj ->writeValue(i, pBytes[i]);
                                  }
                                  break;                                  
                       case SHC_SET_BITS: //TODO: rework - not correct

@@ -137,7 +137,7 @@ void SHConsole::process(void){
                             //if pObj                                                              
                          }else{                        
                             if( lType == '=' ){
-                            if(!pObj)){  //object definition
+                            if(!pObj){  //object definition
                             lType = pTokenizer -> getToken(&ntok);
                                 if(lType==TTYPE_NAME) 
                                 {
@@ -154,12 +154,12 @@ void SHConsole::process(void){
                                 break;                          
                               }
                             }
-                            }else// !pobj
+                            }else// !pobj 
                             {
                                 lType = pTokenizer -> getToken(&ntok);
-                                if(lType=="'") {
+                                if(lType=='"') {
                                     params[0]=digParam;
-                                    params[1]=ntok.ptok+1;
+                                    params[1]=(word)(ntok.ptok+1);
                                     errOut = 0; 
                                     result = pController -> execCommand(SHC_SET_BYTES,params); 
                             }
