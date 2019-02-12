@@ -6,7 +6,7 @@
 
 #define DIM_ST_OFF 0
 #define DIM_ST_ON 1
-//#define DIM_ST_ON_MIN 2
+#define DIM_ST_AUTO_INC 2
 #define DIM_ST_INC 3
 #define DIM_ST_DEC 4
 #define DIM_VAL_MAX 0xff

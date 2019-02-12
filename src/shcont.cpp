@@ -167,7 +167,10 @@ SmartHomeObject* SmartHomeController::addObject(SmartHomeObjId oId, SmartHomeObj
  objectDescriptor * pObjDesc = new objectDescriptor; 
  byte priority = SHO_PRIO_LOW<<4;
  if(objClass == SHO_MBS) priority = SHO_PRIO_HIGHEST<<4;
-  pObjDesc->state = priority | SHO_ST_START;
+ 
+  //if(objClass == SHO_MBS || SHO_CON || SHO_EEP|| SHO_SER)
+	  pObjDesc->state = priority | SHO_ST_START;
+ // else pObjDesc->state = priority | SHO_ST_STOP;
   //Serial.println( pObjDesc->state,HEX);
   pObjDesc->pObject = pObj;
   objMap.add(oId, pObjDesc);

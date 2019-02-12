@@ -37,6 +37,7 @@ Repeater::Repeater(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProvider
     _out = outType;
     _inAddr = inProviderAddr;
     pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, _out);
+	//delay(500);
 }
 
 Repeater::Repeater(word * params):Repeater(params[0],params[1], params[2]){

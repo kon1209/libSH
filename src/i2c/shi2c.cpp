@@ -57,7 +57,7 @@ I2CPWM::I2CPWM(byte i2cAddr){
 void I2CPWM::writeValue(byte valId, SmartHomeObjValue shVal)
 {
   if( valId >= 0 && valId <16){
-    pwm.setPin(valId, shVal);     
+    pwm.setPin(valId, shVal*16);     
   }
 }
          

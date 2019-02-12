@@ -15,7 +15,7 @@ const funcDesc fDescs[]   ={ //objects
                    {"buff",( SHP_EXIST | 1), SHO_BUF},  
                    {"ser0",( SHP_EXIST | 1), SHO_SER}, 
                    {"trig",( SHP_EXIST | 3), SHO_TRIG},
-                   {"reptr",( SHP_EXIST | 2), SHO_REPTR},                  
+                   {"rept",( SHP_EXIST | 3), SHO_REPTR},                  
                    //commands                                  
                    //
                    {"del",( SHP_EXIST | 1), SHC_DEL},                  
