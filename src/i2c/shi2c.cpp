@@ -31,7 +31,7 @@ void I2CExpander::process(void)
 	Wire.endTransmission();
       }    
   }
-      
+/*      
 SmartHomeObjValue I2CExpander::readValue(byte valId){
         if (valId >= 0 && valId <16) return (_inPinValues>>valId)&1;
         }
@@ -45,7 +45,9 @@ void I2CExpander::writeValue(byte valId, SmartHomeObjValue shVal){
         }
         
         }  
+SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
 
+*/
 
 I2CPWM::I2CPWM(byte i2cAddr){
   _i2cAddr = i2cAddr;/* _needWrite = false; _needRead = false;*/ 
@@ -53,12 +55,12 @@ I2CPWM::I2CPWM(byte i2cAddr){
   pwm.begin();
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
   }
-
+/*
 void I2CPWM::writeValue(byte valId, SmartHomeObjValue shVal)
 {
   if( valId >= 0 && valId <16){
     pwm.setPin(valId, shVal*16);     
   }
-}
+}*/
          
         //

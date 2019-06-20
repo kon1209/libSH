@@ -15,7 +15,7 @@ class Button: public Pin {
   public:
     Button(SmartHomeObjAddr inProviderAddr);
     Button(word * params);
-    virtual SmartHomeObjValue readValue(byte valId);
+   // virtual SmartHomeObjValue readValue(byte valId);
     virtual void process(void);
 };
 

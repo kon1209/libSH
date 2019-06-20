@@ -32,6 +32,11 @@ void SHEeprom::process(void){
     }
 }
 
+//SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
+
+
+
+/*
 
 SmartHomeObjValue SHEeprom::processMsg(SmartHomeMsgId msgId, SmartHomeObjValueId valId, SmartHomeObjValue  msgVal){
 if(msgId == SH_MSG_UPDATE_VALUE){  
@@ -59,4 +64,4 @@ if(valId == SH_EEPROM_OP_ADDR && shVal < EEPROM.length()) {
   if(valId < _bufSize && (_opAddress + valId < EEPROM.length())){
   EEPROM.write( _opAddress + valId ,shVal) ;
   }
-  }  
+  }  */

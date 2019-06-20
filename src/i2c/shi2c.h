@@ -15,8 +15,9 @@ class I2CExpander: public SmartHomeObject {
   public:
       I2CExpander( byte i2cAddr){ _i2cAddr = i2cAddr; _needWrite = false; _needRead = false; }
       virtual void process(void);
-      virtual SmartHomeObjValue readValue(byte valId);
-      virtual void writeValue(byte valId, SmartHomeObjValue shVal);        
+     // virtual SmartHomeObjValue readValue(byte valId);
+    //  virtual void writeValue(byte valId, SmartHomeObjValue shVal);   
+    //virtual SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
 };
 
 
@@ -31,8 +32,9 @@ class I2CPWM: public SmartHomeObject {
   public:
       I2CPWM(byte i2cAddr);
       virtual void process(void){};
-      virtual SmartHomeObjValue readValue(byte valId){};
-      virtual void writeValue(byte valId, SmartHomeObjValue shVal);        
+      //virtual SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
+      //virtual SmartHomeObjValue readValue(byte valId){};
+     // virtual void writeValue(byte valId, SmartHomeObjValue shVal);        
 };
 
 #endif

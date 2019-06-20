@@ -24,11 +24,12 @@ void SHSerial::process(void){
     //Serial.println("Update done");    
     needUpdate=false;
     }
-    }
-    
+    }  
 }
 
+//SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
 
+/*
 SmartHomeObjValue SHSerial::processMsg(SmartHomeMsgId msgId, SmartHomeObjValueId valId, SmartHomeObjValue  msgVal){
 if(msgId == SH_MSG_UPDATE_VALUE){  
   needUpdate = true;
@@ -36,3 +37,4 @@ if(msgId == SH_MSG_UPDATE_VALUE){
 }
 return SmartHomeObject::processMsg(msgId,valId,msgVal);
 }
+*/

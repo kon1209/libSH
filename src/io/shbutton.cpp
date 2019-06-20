@@ -13,20 +13,20 @@ Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT){
 Button::Button(word * params):Button(params[0]){
 }
 
-
+/*
 SmartHomeObjValue Button::readValue(byte valId){
   if(valId == 0) return (SmartHomeObjValue)  _outState;
   if(valId == 1) return (SmartHomeObjValue)  _timePressed;
   return _outState;
 }
-
+*/
 void Button::process(){
   byte pinValue;
   if( _state == B_RELEASED && _outState == B_PRESSED){
     _outState = B_RELEASED;
     _timePressed = 0;
   }
-   pinValue = pController -> sendMsg(SH_MSG_READ_VALUE,vProv,0);
+  // pinValue = pController -> sendMsg(SH_MSG_READ_VALUE,vProv,0);
   //button pressed
   if (_state == B_PRESSED){
         if(!pinValue){

@@ -24,7 +24,7 @@ void ModbusSmartHome::addHreg(word offset, word value ){
     byte providerId = offset>>8;
     SmartHomeObject * _valueProvider = pController->findObject(providerId);
     if(_valueProvider){ 
-     return _valueProvider ->readValue(offset&0xff);     
+    // return _valueProvider ->readValue(offset&0xff);     
     }
     return 0;
 } 
@@ -33,12 +33,13 @@ void ModbusSmartHome::addHreg(word offset, word value ){
     byte providerId = offset>>8;
     SmartHomeObject * _valueProvider = pController->findObject(providerId);
     if(_valueProvider){
-       _valueProvider ->writeValue(offset&0xff, value);
+      // _valueProvider ->writeValue(offset&0xff, value);
        return true;
     }
     return false;
 }
 
+/*
  SmartHomeObjValue ModbusSmartHome::readValue(byte valId){
  if(valId == 2) return getSlaveId();
  
@@ -62,7 +63,9 @@ default:
         break;
         }
  }
-
+ 
+SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
+*/
 
  void  ModbusSmartHome::process(void){
   this -> task();

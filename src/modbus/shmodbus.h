@@ -15,8 +15,9 @@ class ModbusSmartHome: public SmartHomeObject,public minModbusSerial {
    bool Hreg(word offset, word value);
    word Hreg(word offset);  
    void process(void);  
-	virtual SmartHomeObjValue readValue(byte valId);
-	virtual void writeValue(byte valId, SmartHomeObjValue shVal);
+   //virtual SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
+	//virtual SmartHomeObjValue readValue(byte valId);
+	//virtual void writeValue(byte valId, SmartHomeObjValue shVal);
     };
 
 

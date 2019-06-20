@@ -9,7 +9,7 @@
 #define PARAM_CNT 8
 
 struct objectDescriptor{
-    //char objName[OBJ_NAME_LEN];
+    char objName[OBJ_NAME_LEN];
     //byte objClass;
     byte state = SHO_ST_STOP;
     SmartHomeObject * pObject;
@@ -33,8 +33,9 @@ public:
     SmartHomeObject* addObject(SmartHomeObjId oId, SmartHomeObject* pObj, byte objClass);
 	SmartHomeObject* findObject(SmartHomeObjId oID);
 	SmartHomeObjValue sendMsg(SmartHomeMsgId msgId, SmartHomeObjAddr objAddr, SmartHomeObjValue  msgVal);
-    virtual SmartHomeObjValue readValue(byte valId);
-    virtual void writeValue(byte valId, SmartHomeObjValue shVal);  
+    
+   // virtual SmartHomeObjValue readValue(byte valId);
+    //virtual void writeValue(byte valId, SmartHomeObjValue shVal);  
 	void process(void);
 
 	//	bool step(void);

@@ -21,9 +21,8 @@ class SHConsole: public SmartHomeObject {
    
   public:
     SHConsole(SmartHomeObjId inProviderId, SmartHomeObjId outProviderId);
-    virtual SmartHomeObjValue readValue(byte valId);
-    virtual void writeValue(byte valId, SmartHomeObjValue shVal);
     virtual void process(void);
+   //virtual SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
 };
 
 #endif

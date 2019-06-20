@@ -89,11 +89,11 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
                                  break;                                                            
                       case SHC_SETC: 
                                  pObj = findObject(params[0]>>8);
-                                 if(pObj) pObj ->writeValue(params[0]&0xff,params[1]);
+                                // if(pObj) pObj ->writeValue(params[0]&0xff,params[1]);
                                  break;          
                       case SHC_SET: //TODO: rework - not correct
                                  pObj = findObject(params[0]>>8);
-                                 pObj ->writeValue(params[0]&0xff,params[1]);
+                                 //pObj ->writeValue(params[0]&0xff,params[1]);
                                  break;
                       case SHC_SET_BYTES: //TODO: rework - not correct
                                  pObj = findObject(params[0]);
@@ -101,7 +101,7 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
 								 pBytes=(char *) (params[1]);
                                  for(int i=0; i<strlen(pBytes);i++){
 									if(pBytes[i]=='"')break;
-									pObj ->writeValue(i, pBytes[i]);
+									//pObj ->writeValue(i, pBytes[i]);
                                  }
                                  break;                                  
                       case SHC_SET_BITS: //TODO: rework - not correct
@@ -109,17 +109,17 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
 								 byte outNum ;
 								 if(pObj){
 									outNum = params[0]&0xff;
-									pObj ->writeValue(outNum,params[1]);
+								//	pObj ->writeValue(outNum,params[1]);
 								 }
                                  break;    								 
                       case SHC_GET: 
                                  pObj = findObject(params[0]>>8);
-                                 if(pObj) result =pObj ->readValue(params[0]&0xff);
+                                 //if(pObj) result =pObj ->readValue(params[0]&0xff);
                                  break;
                       case SHC_PRINT: 
                                  pObj = findObject((params[0]>>8));
                                  if(pObj){
-                                 result = pObj ->readValue((params[0]&0xff));
+                                 //result = pObj ->readValue((params[0]&0xff));
                                  }
                                  break;                 
                     }
@@ -180,10 +180,11 @@ SmartHomeObject* SmartHomeController::addObject(SmartHomeObjId oId, SmartHomeObj
 
 SmartHomeObjValue SmartHomeController::sendMsg(SmartHomeMsgId msgId, SmartHomeObjAddr objAddr, SmartHomeObjValue msgVal)
 {
+ 
 	SmartHomeObject * pSmartHomeObj= findObject(objAddr>>8);
 	if(pSmartHomeObj) 
 	{
-		return pSmartHomeObj -> processMsg(msgId, objAddr&0xff, msgVal);
+		return 0;// pSmartHomeObj -> processMsg(msgId, objAddr&0xff, msgVal);
 	}
 }
 
@@ -219,7 +220,7 @@ if(_params[0] && _params[1])
   return 0;
  }
  
- 
+ /*
 SmartHomeObjValue SmartHomeController::readValue(byte valId){
     if(valId<PARAM_CNT) return _params[valId];
 }
@@ -227,7 +228,7 @@ SmartHomeObjValue SmartHomeController::readValue(byte valId){
 void SmartHomeController::writeValue(byte valId, SmartHomeObjValue shVal){
     if(valId<PARAM_CNT) _params[valId] = shVal;
 }
- 
+ */
 
 int SmartHomeController::freeRam () {
   extern int __heap_start, *__brkval; 

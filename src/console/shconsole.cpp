@@ -43,7 +43,7 @@ SHConsole::SHConsole( SmartHomeObjId inProviderId, SmartHomeObjId outProviderId)
    _inProviderId = inProviderId;
    _outProviderId = outProviderId; 
 }
-
+/*
  SmartHomeObjValue SHConsole::readValue(byte valId)
 { 
   return 0;
@@ -54,7 +54,8 @@ SHConsole::SHConsole( SmartHomeObjId inProviderId, SmartHomeObjId outProviderId)
 {  
   if(valId == 0) _inProviderId = shVal;
   if(valId == 1) _outProviderId = shVal;
-  }  
+  }
+*/  
 //
  char *i2str(int i, char *buf){
   byte l=0;
@@ -75,6 +76,10 @@ SHConsole::SHConsole( SmartHomeObjId inProviderId, SmartHomeObjId outProviderId)
   buf[l]=0;
   return buf;
 } 
+
+//SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
+
+
 
 
 void SHConsole::process(void){

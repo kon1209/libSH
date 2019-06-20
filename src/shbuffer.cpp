@@ -17,6 +17,9 @@ SHBuffer::~SHBuffer(){
     free(_pBuff);
 }
 
+/*
+virtual SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
+
 SmartHomeObjValue SHBuffer::readValue(byte valId)
 { 
  //   switch (valId)
@@ -31,3 +34,4 @@ void SHBuffer::writeValue(byte valId, SmartHomeObjValue shVal)
 { if(valId == 0) memset(_pBuff,0,_bufSize);
   if(_bufSize && valId < _bufSize )  _pBuff[valId]=shVal ; 
   }  
+*/
