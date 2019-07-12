@@ -7,7 +7,7 @@ Pin::Pin(SmartHomeObjAddr providerAddr, byte pinType)
 { 
  // _pinNum = providerAddr &0xff; 
    vProv = providerAddr;
- // if(pinType < 3) pController->sendMsg(SH_MSG_WRITE_VALUE, vProv|0x80, pinType);
+ // if(pinType < 3) pController->sendMsg(SH_MSG_WRITE_VALUE,   pinType);
 }
 
 Pin::Pin(word * params): Pin(params[0],params[1])

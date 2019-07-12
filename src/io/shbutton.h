@@ -11,7 +11,7 @@ class Button: public Pin {
   protected:
     byte _state;
     long _timePressed;
-    word _outState;
+    byte _outState;
   public:
     Button(SmartHomeObjAddr inProviderAddr);
     Button(word * params);
