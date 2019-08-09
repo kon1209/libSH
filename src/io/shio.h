@@ -14,9 +14,8 @@ class Pin: public SmartHomeObject {
 	public:
 	Pin(SmartHomeObjAddr providerAddr, byte pinType);
 	Pin(word * params);
-  //  virtual SmartHomeObjValue readValue(byte valId);
-    //virtual void writeValue(byte valId, SmartHomeObjValue shVal);
-	//virtual void process(void){/*readValue(_pinNum);*/};
+    virtual SmartHomeObjValue * resolve(byte  valid, byte resType);
+	// virtual void process(void){/*readValue(_pinNum);*/};
 };
 
 
@@ -78,8 +77,8 @@ class DigitalIO: public SmartHomeObject {
   public:
       DigitalIO(){  };
       void process(void){};
-    //  virtual SmartHomeObjValue readValue(byte valId);
-    // virtual void writeValue(byte valId, SmartHomeObjValue shVal);
+      virtual SmartHomeObjValue readValue(byte valId);
+      virtual void writeValue(byte valId, SmartHomeObjValue shVal);
              
 };
 
@@ -88,8 +87,8 @@ class AnalogIO: public SmartHomeObject {
   public:
       AnalogIO(){};
       virtual void process(void){};
-     // virtual SmartHomeObjValue readValue(byte valId);
-     // virtual void writeValue(byte valId, SmartHomeObjValue shVal);        
+      virtual SmartHomeObjValue readValue(byte valId);
+      virtual void writeValue(byte valId, SmartHomeObjValue shVal);        
 };
 
 

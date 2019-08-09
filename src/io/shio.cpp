@@ -13,17 +13,17 @@ Pin::Pin(SmartHomeObjAddr providerAddr, byte pinType)
 Pin::Pin(word * params): Pin(params[0],params[1])
 { 
 }
-/*
-SmartHomeObjValue Pin::readValue(byte valId)
+
+SmartHomeObjValue * resolve(byte  valid, byte direction)
 { 
- if(valId == 0) return  pController->sendMsg(SH_MSG_READ_VALUE, vProv,0);
+// if(valId == 0) return  pController->sendMsg(SH_MSG_READ_VALUE, vProv,0);
   }
 
 void Pin::writeValue(byte valId, SmartHomeObjValue shVal)
 { 
-  if(valId == 0) pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, shVal);
+//  if(valId == 0) pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, shVal);
   }  
-*/
+
 outPin::outPin(SmartHomeObjAddr outProviderAddr, byte outValue):Pin(outProviderAddr,OUTPUT){
     _out = outValue;
     //pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, outValue);
@@ -109,7 +109,7 @@ void Blinker::process(){
    }
 }
 
-/*
+
 SmartHomeObjValue DigitalIO::readValue(byte valId)
 { 
    if( valId >= 1 && valId <64) return digitalRead(valId);
@@ -129,7 +129,7 @@ void DigitalIO::writeValue(byte valId, SmartHomeObjValue shVal)
   
 SmartHomeObjValue AnalogIO::readValue(byte valId)
 { 
-   //if( valId >= 1 && valId <64) return digitalRead(valId);
+   if( valId >= 1 && valId <64) return digitalRead(valId);
    return 0;
   }
   
@@ -141,9 +141,9 @@ void AnalogIO::writeValue(byte valId, SmartHomeObjValue shVal)
     return;
   }
 
-  } */
+  } 
 
 
 
          
-        //
+        
