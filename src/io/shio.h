@@ -9,33 +9,33 @@
 
 class Pin: public SmartHomeObject {
 	protected:
-		//byte _pinNum;
-    SmartHomeObjAddr vProv;
+        SmartHomeObjAddr vProv;
 	public:
-	Pin(SmartHomeObjAddr providerAddr, byte pinType);
-	Pin(word * params);
-    virtual SmartHomeObjValue * resolve(byte  valid, byte resType);
-	// virtual void process(void){/*readValue(_pinNum);*/};
+        Pin(SmartHomeObjAddr providerAddr, byte pinType);
+        Pin(word * params);
+        virtual SmartHomeObjValue get(byte valId);
+        virtual void set(byte valId, SmartHomeObjValue shVal){};
 };
 
 
 class outPin: public Pin {
 	protected:
-		    byte _out;
+		byte _out;
 	public:
-	outPin(SmartHomeObjAddr outProviderAddr, byte outValue);
-	outPin(word * params);
+        outPin(SmartHomeObjAddr outProviderAddr, byte outValue);
+        outPin(word * params);
+        virtual void set(byte valId, SmartHomeObjValue shVal){};
 
 };
 
 class Repeater: public Pin {
 	protected:
-		    byte _out;
-            SmartHomeObjAddr _inAddr;
+		byte _out;
+        SmartHomeObjAddr _inAddr;
 	public:
-	Repeater(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr, byte outType);
-	Repeater(word * params);
-	virtual void process(void);
+        Repeater(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr, byte outType);
+        Repeater(word * params);
+        virtual void process(void);
 };
 
 class outTrigger: public Pin {
@@ -58,9 +58,9 @@ class Blinker: public Pin {
     long _startTime;
   public:
     Blinker(SmartHomeObjAddr providerAddr, byte outType);
-    Blinker(word * params);
-   //virtual void writeValue(byte valId, SmartHomeObjValue shVal);   
-   virtual void process(void);
+    Blinker(word * params);   
+    virtual void process(void);
+    virtual void set(byte valId, SmartHomeObjValue shVal);   
 };
 
 
@@ -77,9 +77,8 @@ class DigitalIO: public SmartHomeObject {
   public:
       DigitalIO(){  };
       void process(void){};
-      virtual SmartHomeObjValue readValue(byte valId);
-      virtual void writeValue(byte valId, SmartHomeObjValue shVal);
-             
+      virtual SmartHomeObjValue get(byte valId);
+      virtual void set(byte valId, SmartHomeObjValue shVal);            
 };
 
 //
@@ -87,8 +86,8 @@ class AnalogIO: public SmartHomeObject {
   public:
       AnalogIO(){};
       virtual void process(void){};
-      virtual SmartHomeObjValue readValue(byte valId);
-      virtual void writeValue(byte valId, SmartHomeObjValue shVal);        
+      virtual SmartHomeObjValue get(byte valId);
+      virtual void set(byte valId, SmartHomeObjValue shVal);       
 };
 
 

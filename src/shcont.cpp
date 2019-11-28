@@ -32,7 +32,7 @@ SmartHomeController::SmartHomeController(void){
                          pObj = (SmartHomeObject *) new AnalogIO();                     
                          break;                                     
                    case SHO_BTN:
-                        pObj = (SmartHomeObject *) new Button(&params[1]);                      
+                        pObj = (SmartHomeObject *) new ButtonArray(params[1]);                      
                         break;
                   case SHO_DIM:
                         pObj = (SmartHomeObject *) new Dimmer(&params[1]);                      

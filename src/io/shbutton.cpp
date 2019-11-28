@@ -2,17 +2,6 @@
 #include "shbutton.h"
 #include "shcont.h"
 
-
-
-Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT){
-     _state = 0;
-    _timePressed = 0;
-     _outState = 0;
-}
-
-Button::Button(word * params):Button(params[0]){
-}
-
 /*
 SmartHomeObjValue Button::readValue(byte valId){
   if(valId == 0) return (SmartHomeObjValue)  _outState;
@@ -20,35 +9,54 @@ SmartHomeObjValue Button::readValue(byte valId){
   return _outState;
 }
 */
-void Button::process(){
-  byte pinValue;
-  if( _state == B_RELEASED && _outState == B_PRESSED){
-    _outState = B_RELEASED;
-    _timePressed = 0;
-  }
+
+ButtonArray::ButtonArray(byte bNum){
+    _bNum = bNum;     
+    //_buttons  =  (Button **) malloc(_bNum*sizeof(Button *)); 
+    for (int i =0; i<_bNum;i++)  
+    {   
+        _buttons[i] = new Button();
+    } 
+}
+
+/*
+ButtonArray::ButtonArray(word * params):ButtonArray(params[0]){
+}
+*/
+
+
+void ButtonArray::process(){
+    for (int i =0; i<_bNum; i++){
+        Button * currButton = _buttons[i];
+        if(currButton->_state == B_RELEASED && currButton->_outState == B_PRESSED)
+        {
+            currButton->_outState = B_RELEASED;
+            currButton->_timePressed = 0;
+        }
   // pinValue = pController -> sendMsg(SH_MSG_READ_VALUE,vProv,0);
   //button pressed
-  if (_state == B_PRESSED){
-        if(!pinValue){
-           _state = B_RELEASED;
-           _timePressed = millis() - _timePressed;
-           if ( _timePressed > BTN_PRESSED){            
-               _outState = B_PRESSED;
+        if (currButton->_state == B_PRESSED){
+            if(! currButton->pinValue){
+                currButton->_state = B_RELEASED;
+                currButton->_timePressed = millis() - currButton->_timePressed;
+                if ( currButton->_timePressed > BTN_PRESSED){            
+                        currButton->_outState = B_PRESSED;
+                    }
             }
-         }
-    else//still pressed
-    {
-      
+        else//still pressed
+            {
+     
+            }
+       }
+       else//button released
+        {
+        if(currButton->pinValue)
+            {
+            currButton->_state = B_PRESSED;
+            currButton->_timePressed = millis();
+            }
+        }
     }
-  }
-  else//button released
-  {
-    if(pinValue)
-    {
-      _state = B_PRESSED;
-      _timePressed = millis();
-    }
-  }
 }
 
         //

@@ -3,10 +3,7 @@
 
 #include "shbase.h"
 
-
 class SmartHomeController;
-
-//Pin Defs
 
 class SmartHomeObject {
 	public:
@@ -14,8 +11,8 @@ class SmartHomeObject {
 		SmartHomeObject(){ };
 		virtual ~SmartHomeObject(){};	
 		virtual void process(void){};
-		//virtual SmartHomeObjValue * resolve(char * valName){return 0;};//*getValuePointer(valId);};
-        virtual SmartHomeObjValue * resolve(byte  valid, byte direction){return 0;};//*getValuePointer(valId);};
+        virtual SmartHomeObjValue get(byte valId){return 0;};
+        virtual void set(byte valId, SmartHomeObjValue shVal){};
 };
 
 #endif
