@@ -158,8 +158,7 @@ byte SmartHomeController::processObject(SmartHomeObjId oID, byte command)
             }while(objMap.next() != NULL);
     
         }
-     result = 1;
-     
+     result = 1;    
     return result;
 }
 

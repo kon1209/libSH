@@ -51,4 +51,44 @@ void Button::process(){
   }
 }
 
+SmartHomeObjValue ButtonArray::readValue(byte valId){
+ // if(valId == 0) return (SmartHomeObjValue)  _outState;
+  //if(valId == 1) return (SmartHomeObjValue)  _timePressed;
+  return 0;//_outState;
+}
+
+void ButtonArray::process(){
+  byte pinValue;
+  for (byte  i=0;i<BTN_NUM; i++){
+  if(buttons[i]._state == B_RELEASED && buttons[i]._outState == B_PRESSED){
+    buttons[i]._outState = B_RELEASED;
+    buttons[i]._timePressed = 0;
+  }
+   pinValue = 0;//pController -> sendMsg(SH_MSG_READ_VALUE,vProv,0);
+  //button pressed
+  if (buttons[i]._state == B_PRESSED){
+        if(!pinValue){
+           buttons[i]._state = B_RELEASED;
+           buttons[i]._timePressed = millis() - buttons[i]._timePressed;
+           if ( buttons[i]._timePressed > BTN_PRESSED){            
+               buttons[i]._outState = B_PRESSED;
+            }
+         }
+    else//still pressed
+    {
+      
+    }
+  }
+  else//button released
+  {
+    if(pinValue)
+    {
+      buttons[i]._state = B_PRESSED;
+      buttons[i]._timePressed = millis();
+    }
+  }
+  }
+}
+
+
         //

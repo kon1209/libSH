@@ -58,9 +58,15 @@
 #define SHP_EXIST  0x10
 
 typedef  word SmartHomeObjValue;
+typedef  word SmartHomeObjValueId;
+typedef  byte SmartHomeObjId; // 
+typedef  unsigned long SmartHomeObjAddr;//1-st controller id, objId; second objvalId
+typedef  byte SmartHomeMsgId; // 
+/*
+typedef  word SmartHomeObjValue;
 typedef  byte SmartHomeObjValueId;
 typedef  byte SmartHomeObjId; // 
 typedef  word SmartHomeObjAddr;//1-st  objId, second valId
 typedef  byte SmartHomeMsgId; // 
-
+*/
 #endif

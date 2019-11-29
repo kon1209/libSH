@@ -22,8 +22,8 @@ class SmartHomeObject {
             if(msgId == SH_MSG_WRITE_VALUE) writeValue(valId, msgVal); 
 			return 0;
 		};		
-		virtual SmartHomeObjValue readValue(byte valId){return 0;};//*getValuePointer(valId);};
-		virtual void writeValue(byte valId, SmartHomeObjValue shVal){};//{*getValuePointer(valId) = shVal;};
+		virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId){return 0;};//*getValuePointer(valId);};
+		virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal){};//{*getValuePointer(valId) = shVal;};
 };
 
 #endif

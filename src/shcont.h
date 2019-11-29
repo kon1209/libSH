@@ -33,6 +33,7 @@ public:
     SmartHomeObject* addObject(SmartHomeObjId oId, SmartHomeObject* pObj, byte objClass);
 	SmartHomeObject* findObject(SmartHomeObjId oID);
 	SmartHomeObjValue sendMsg(SmartHomeMsgId msgId, SmartHomeObjAddr objAddr, SmartHomeObjValue  msgVal);
+	SmartHomeObjValue sendMsg(SmartHomeMsgId msgId, SmartHomeObjAddr objAddr){};    
     virtual SmartHomeObjValue readValue(byte valId);
     virtual void writeValue(byte valId, SmartHomeObjValue shVal);  
 	void process(void);

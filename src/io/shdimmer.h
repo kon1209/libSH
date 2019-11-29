@@ -14,6 +14,8 @@
 #define DIM_VAL_STEP 20
 #define BTN_LONG_PRESSED 500
 #define BTN_PRESSED 50
+
+
 class Dimmer: public Pin {
   protected:
     byte _state;
@@ -26,5 +28,22 @@ class Dimmer: public Pin {
     virtual SmartHomeObjValue readValue(byte valId){};
     virtual void process(void);
 };
+
+#define DIM_NUM 16
+
+
+class DimmerArray: public SmartHomeObject {
+  struct Dimmer{
+    byte _state;
+    word _outState; 
+    long _trigTime;
+    SmartHomeObjAddr _inProviderAddr;
+    }dimmers[DIM_NUM];
+  public:
+    DimmerArray(){};
+    virtual SmartHomeObjValue readValue(byte valId){};
+    virtual void process(void);
+};
+
 
 #endif
