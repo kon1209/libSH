@@ -5,10 +5,11 @@
 #define SH_EEPROM_OP_ADDR 0x81  //1000 0000
 
 
-SHEeprom::SHEeprom(SmartHomeObjValue bufSz): SHBuffer(bufSz)
+SHEeprom::SHEeprom(SmartHomeObjId ioProvider): SHBuffer((SmartHomeObjValue)0)
 { 
     _opAddress = 0;
     needUpdate = true;
+    _ioProvider = ioProvider;
 }
 
 SHEeprom::SHEeprom(word * params): SHEeprom(params[0])
@@ -17,18 +18,24 @@ SHEeprom::SHEeprom(word * params): SHEeprom(params[0])
 
 void SHEeprom::process(void){
     if(needUpdate){
-    char* pCur= _pBuff;
-    while(pCur<_pBuff + _bufSize){
-        if(_opAddress >= EEPROM.length())break;
-        char c = EEPROM[_opAddress];
-        if(c==0 || c==0xff ) break;
-        *pCur=c;
-        _opAddress++;
-        pCur++; 
-        if(c==0xa) break;        
-        }    
-    //Serial.println("Update done");    
-    needUpdate=false;
+        SHBuffer * _valueProvider = (SHBuffer *) pController->findObject(_ioProvider);
+        if (_valueProvider){ 
+            char* pCur= _valueProvider->_pBuff;
+            while(pCur<_valueProvider->_pBuff +_valueProvider->_bufSize)
+            {
+            if(_opAddress >= EEPROM.length())break;
+            char c = EEPROM[_opAddress];
+            if(c==0 || c==0xff ){
+                //Serial.println("Update done");
+                needUpdate=false;
+                break;
+                }
+            *pCur=c;
+            _opAddress++;
+            pCur++; 
+            if(c==0xa) break;        
+            }                
+        }
     }
 }
 

@@ -12,7 +12,7 @@ SmartHomeController::SmartHomeController(void){
                   switch(objClass)
                    {
                    case SHO_CON:
-                          pObj = (SmartHomeObject *) new SHConsole(params[1], params[2]);
+                          pObj = (SmartHomeObject *) new SHConsole(params[1]);
                         break;
                    case SHO_MBS: 
                         #if defined SH_USE_MODBUS

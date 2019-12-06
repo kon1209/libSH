@@ -6,10 +6,11 @@
 
 class SHEeprom: public SHBuffer {
 	protected:
+        SmartHomeObjId _ioProvider;    
 		word _opAddress;
         bool needUpdate = false;
 	public:
-	SHEeprom(SmartHomeObjValue bufSz);
+	SHEeprom(SmartHomeObjId ioProvider);
 	SHEeprom(word * params);
     virtual SmartHomeObjValue processMsg(SmartHomeMsgId msgId, SmartHomeObjValueId valId, SmartHomeObjValue  msgVal);
     virtual SmartHomeObjValue readValue(byte valId);

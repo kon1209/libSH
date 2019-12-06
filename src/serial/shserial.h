@@ -5,11 +5,11 @@
 
 class SHSerial: public SHBuffer {
 	protected:
-        bool needUpdate = false;
+        SmartHomeObjId _ioProvider;
 	public:
-	SHSerial(SmartHomeObjValue bufSz);
+	SHSerial(SmartHomeObjId ioProvider);
 	SHSerial (word * params);
-    virtual SmartHomeObjValue processMsg(SmartHomeMsgId msgId, SmartHomeObjValueId valId, SmartHomeObjValue  msgVal);
+   // virtual SmartHomeObjValue processMsg(SmartHomeMsgId msgId, SmartHomeObjValueId valId, SmartHomeObjValue  msgVal);
    // virtual SmartHomeObjValue readValue(byte valId);
   //  virtual void writeValue(byte valId, SmartHomeObjValue shVal);
 	virtual void process(void);

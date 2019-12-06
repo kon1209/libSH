@@ -17,7 +17,6 @@ const funcDesc fDescs[]   ={ //objects
                    {"trig",( SHP_EXIST | 3), SHO_TRIG},
                    {"rept",( SHP_EXIST | 3), SHO_REPTR},                  
                    //commands                                  
-                   //
                    {"del",( SHP_EXIST | 1), SHC_DEL},                  
                    {"ram",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_RAM},                                      
                    //{"get",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_GET},
@@ -37,27 +36,18 @@ byte findFunc(char * pFunc){
   return 0xff;
 }
 
-SHConsole::SHConsole( SmartHomeObjId inProviderId, SmartHomeObjId outProviderId)
+SHConsole::SHConsole(SmartHomeObjValue bufSz ):SHBuffer(bufSz)
 { 
    pTokenizer = new shTokenizer();
-   _inProviderId = inProviderId;
-   _outProviderId = outProviderId; 
+   *_pBuff = 0;
 }
 
- SmartHomeObjValue SHConsole::readValue(byte valId)
-{ 
-  return 0;
- //if(valId == 0) return _valueProvider->readValue(_pinNum);
-  }
 
- void SHConsole::writeValue(byte valId, SmartHomeObjValue shVal)
-{  
-  if(valId == 0) _inProviderId = shVal;
-  if(valId == 1) _outProviderId = shVal;
-  }  
+ SHConsole::SHConsole (word * params):SHBuffer(params[0]){
+ }
 //
- char *i2str(int i, char *buf){
-  byte l=0;
+ char *i2str(int i, char *buf, byte l){
+
   if (i==0)buf[l++]='0';
   else{
   if(i<0) buf[l++]='-';
@@ -77,41 +67,32 @@ SHConsole::SHConsole( SmartHomeObjId inProviderId, SmartHomeObjId outProviderId)
 } 
 
 
-void SHConsole::process(void){
-	
+void SHConsole::process(void){	
   byte errOut =0;
   funcDesc fDes;
   word result;
-  char * _inBuff;
-  char *  _outBuff;
  // return;
-  _inBuff = (char *)pController->sendMsg(SH_MSG_READ_VALUE,(_inProviderId<<8)+0x80,0); 
-  if (_inBuff && (*_inBuff !=0) && (*_inBuff !=0xff) )
+  if ((*_pBuff !=0) && (*_pBuff !=0xff) )
   {
-  int num = strlen(_inBuff);
+  int num = strlen(_pBuff);
   if(num >2){
-    // Serial.println(_inBuff);
-
-    // if(_inProviderId) pController->sendMsg(SH_MSG_UPDATE_VALUE,(_inProviderId<<8),0);
-    // return;
-    // 
-    _inBuff[strlen(_inBuff)]=0x20;
-    pTokenizer -> begin(_inBuff);
+    _pBuff[strlen(_pBuff)]=0x20;
+    pTokenizer -> begin(_pBuff);
     tokAn tok,ntok;
     word params[PARAM_CNT];
     word digParam;
     char lType;
     byte fNum;
-
+    //Serial.println(_pBuff);
    long proctime = micros();
     lType = pTokenizer -> getToken(&tok);   
       switch (lType)
       {
-        case TTYPE_UNK: errOut = 0xE0;
+        case TTYPE_UNK: errOut = 0xE1;
 
                         break; 
                         
-        case TTYPE_NUMVAL:errOut = 0xEF;
+        case TTYPE_NUMVAL:errOut = 0xE2;
                           SmartHomeObject * pObj;      
                           digParam = strtol( tok.ptok,NULL,0);                         
                           lType = pTokenizer -> getToken(&ntok);
@@ -207,28 +188,21 @@ void SHConsole::process(void){
                     //_pStream.print(tok.ptok[0],HEX);
                      break;                  
         }//switch 
-        memset(_inBuff, 0, 30);
-        if(_outProviderId){
-            _outBuff = (char *)pController->sendMsg(SH_MSG_READ_VALUE,(_outProviderId<<8)+0x80,0);
-             memset(_outBuff, 0, 10);
-            if(errOut) {
-                _outBuff[0]='E';
-                _outBuff[1] =(errOut&0xf)+0x30; 
+        memset(_pBuff, 0, _bufSize);
+        _pBuff[0]='>';
+        _pBuff[1] = 'O';
+        _pBuff[2] = 'K';       
+         if(errOut) {
+            _pBuff[1]='E';
+            _pBuff[2] =(errOut&0xf)+0x30; 
              }
-             else{
-              if ((fDes.paramCnt & SHP_NEEDOUT)){           
-              i2str(result, _outBuff);
-             }
-             else            
-             {
-             _outBuff[0] = 'O';
-             _outBuff[1] = 'K';
-             }
-     }
-     _outBuff[strlen(_outBuff)]=0xd;
-     _outBuff[strlen(_outBuff)]=0xa;
-       }      
-       if(_inProviderId) pController->sendMsg(SH_MSG_UPDATE_VALUE,(_inProviderId<<8),0); 
+        else{
+            if ((fDes.paramCnt & SHP_NEEDOUT)){           
+                i2str(result, _pBuff, 1);
+            }       
+            }
+     _pBuff[strlen(_pBuff)]=0xd;
+     _pBuff[strlen(_pBuff)]=0xa;
      }//input len >2
    }//inbuf OK
   
