@@ -7,7 +7,7 @@
 
 SHEeprom::SHEeprom(SmartHomeObjId ioProvider): SHBuffer((SmartHomeObjValue)0)
 { 
-    _opAddress = 0;
+    _index = 0;
     needUpdate = true;
     _ioProvider = ioProvider;
 }
@@ -17,21 +17,21 @@ SHEeprom::SHEeprom(word * params): SHEeprom(params[0])
 }
 
 void SHEeprom::process(void){
-    if(needUpdate){
+    if(_ioProvider && needUpdate){
         SHBuffer * _valueProvider = (SHBuffer *) pController->findObject(_ioProvider);
-        if (_valueProvider){ 
+        if ( _valueProvider){ 
             char* pCur= _valueProvider->_pBuff;
             while(pCur<_valueProvider->_pBuff +_valueProvider->_bufSize)
             {
-            if(_opAddress >= EEPROM.length())break;
-            char c = EEPROM[_opAddress];
+            if(_index >= EEPROM.length())break;
+            char c = EEPROM[_index];
             if(c==0 || c==0xff ){
                 //Serial.println("Update done");
                 needUpdate=false;
                 break;
                 }
             *pCur=c;
-            _opAddress++;
+            _index++;
             pCur++; 
             if(c==0xa) break;        
             }                
@@ -41,6 +41,9 @@ void SHEeprom::process(void){
 
 
 SmartHomeObjValue SHEeprom::processMsg(SmartHomeMsgId msgId, SmartHomeObjValueId valId, SmartHomeObjValue  msgVal){
+/*if(msgId == SH_MSG_UPDATE_INDEX) {
+    _index = shVal;
+    return ; }*/
 if(msgId == SH_MSG_UPDATE_VALUE){  
   needUpdate = true;
   return 0;
@@ -48,22 +51,15 @@ if(msgId == SH_MSG_UPDATE_VALUE){
 return SmartHomeObject::processMsg(msgId,valId,msgVal);
 }
 
-SmartHomeObjValue SHEeprom::readValue(byte valId)
+SmartHomeObjValue SHEeprom::readValue(SmartHomeObjValueId valId)
 { 
- if(valId == SH_BUFF_OP){
- if(_opAddress >= EEPROM.length() || EEPROM[_opAddress]==0 || EEPROM[_opAddress]==0xff )return 0;
- return (SmartHomeObjValue) _pBuff;
-}
- if(valId == SH_EEPROM_OP_ADDR) return _opAddress; 
- if(valId < _bufSize && (_opAddress + valId < EEPROM.length())) return EEPROM[ _opAddress + valId ];
+Serial.println(valId);
+ if(valId  < EEPROM.length()) return EEPROM[valId ];
   }
 
-void SHEeprom::writeValue(byte valId, SmartHomeObjValue shVal)
+void SHEeprom::writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal)
 { 
-if(valId == SH_EEPROM_OP_ADDR && shVal < EEPROM.length()) {
-    _opAddress = shVal;
-    return ; }
-  if(valId < _bufSize && (_opAddress + valId < EEPROM.length())){
-  EEPROM.write( _opAddress + valId ,shVal) ;
+  if( valId  < EEPROM.length()){
+  EEPROM.write(  valId ,(byte) shVal) ;
   }
   }  

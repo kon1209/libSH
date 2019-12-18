@@ -19,7 +19,7 @@ const funcDesc fDescs[]   ={ //objects
                    //commands                                  
                    {"del",( SHP_EXIST | 1), SHC_DEL},                  
                    {"ram",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_RAM},                                      
-                   //{"get",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_GET},
+                   {"getl",( SHP_NEEDOUT | SHP_EXIST | 3), SHC_GETL},
                    {"stop",( SHP_EXIST | 1), SHC_STOP},
                    {"start",( SHP_EXIST | 1), SHC_START},                   
                    {"print",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_PRINT},  
@@ -89,7 +89,6 @@ void SHConsole::process(void){
       switch (lType)
       {
         case TTYPE_UNK: errOut = 0xE1;
-
                         break; 
                         
         case TTYPE_NUMVAL:errOut = 0xE2;
@@ -97,6 +96,34 @@ void SHConsole::process(void){
                           digParam = strtol( tok.ptok,NULL,0);                         
                           lType = pTokenizer -> getToken(&ntok);
                           pObj = pController->findObject(digParam);
+                          /*
+                           if( lType == '[' && pObj){ 
+                
+                            lType = pTokenizer -> getToken(&ntok);
+                            if(lType == TTYPE_NUMVAL){  
+                                byte indx = strtol( ntok.ptok,NULL,0);
+                                lType = pTokenizer -> getToken(&ntok);
+                                if( lType == ']'){
+                                params[0]=digParam<<8;                                           
+                                params[0]+=  strtol( ntok.ptok,NULL,0);
+                                lType = pTokenizer -> getToken(&ntok);
+                                if( lType == '=')
+                                {
+                                 lType = pTokenizer -> getToken(&ntok);
+                                   if(lType == TTYPE_NUMVAL)
+                                   {
+                                    params[1]=  strtol( ntok.ptok,NULL,0);
+                                     errOut = 0; 
+                                     result = pController -> execCommand(SHC_SETC,params);
+                                     break; 
+                                   }
+                                }
+                              } 
+                                }                              
+                            //if pObj                                                              
+                         }   */                      
+                          
+                          //
                           if( lType == '.' && pObj){                          
                             lType = pTokenizer -> getToken(&ntok);
                             if(lType == TTYPE_NUMVAL){                                                        
@@ -150,10 +177,12 @@ void SHConsole::process(void){
                          
                         break; 
                                                           
-        case TTYPE_NAME: //command                         
+        case TTYPE_NAME: //command    
+                         errOut = 0xE5;
                          fNum = findFunc(tok.ptok);
                             if(fNum != 0xff){                   
-                                fDes = fDescs[fNum];                  
+                                fDes = fDescs[fNum];  
+                                errOut = 0;                                
                                 //check params 
                            if ((fDes.paramCnt & SHP_EXIST)){  
                                 errOut = pTokenizer ->getParams((fDes.paramCnt & 0xf), params);
@@ -187,8 +216,17 @@ void SHConsole::process(void){
                     errOut = 0xE0;
                     //_pStream.print(tok.ptok[0],HEX);
                      break;                  
-        }//switch 
-        memset(_pBuff, 0, _bufSize);
+        }//switch
+        
+        if(fDes.fId == SHC_GETL){
+                 memset(_pBuff+result, 0, _bufSize-result);
+                _pBuff[0]='>';
+                _pBuff[strlen(_pBuff)]=0xd;
+                _pBuff[strlen(_pBuff)]=0xa;
+     
+        }
+        else{      
+         memset(_pBuff, 0, _bufSize);
         _pBuff[0]='>';
         _pBuff[1] = 'O';
         _pBuff[2] = 'K';       
@@ -205,6 +243,7 @@ void SHConsole::process(void){
      _pBuff[strlen(_pBuff)]=0xa;
      }//input len >2
    }//inbuf OK
+  }
   
   };
 

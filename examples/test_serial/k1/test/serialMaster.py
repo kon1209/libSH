@@ -2,7 +2,7 @@ import serial
 import time
 #from serial import Serial
 
-portName = 'com10'
+portName = 'com28'
 baudrate = 38400
 timeoutSp=0.1 
 
@@ -14,7 +14,7 @@ class SHSerialTool:
     def sendDataWithResponse(self,data):
         print("Command:==> ",data)
         self.sendCommand(data)
-        time.sleep(0.1) 
+        time.sleep(0.01) 
         return self.readResponse()
 
     def openPort(self):      
@@ -56,47 +56,61 @@ class SHSerialTool:
             print(outStr)                      
         srcFile.close() 
     
-    def eraseEEPROM(self,size, eepromAddr="0xee",  startAddr=0, buffSize=20 ):
-        i=0
-        bufSzCnt=0
-        self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr))      
+    def eraseEEPROM(self,size, eepromAddr="0xe0",  startAddr=0):
+        i=0    
         time.sleep(0.1)
         while(i<size):
-            self.sendDataWithResponse(eepromAddr+"."+str(bufSzCnt)+"=0xff\n")
+            outStr = self.sendDataWithResponse(eepromAddr+"."+ str(startAddr+i)+"=0xf5") 
+            print(outStr)
+            time.sleep(0.05)
             i+=1
-            bufSzCnt+=1
-            if(bufSzCnt >= buffSize):
-                self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr+i)) 
-                bufSzCnt = 0
-                time.sleep(0.05)
         return 
 
     
-    def readEEPROM(self,  size, eepromAddr="0xee",  startAddr=0, buffSize=20 ):
+    def readEEPROM(self,  size, eepromAddr="0xe0",  startAddr=0, buffSize=20 ):
         i=0
         bufSzCnt=0
-        self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr))
-        # srcFile =  open('out.txt', "wb")
+       # self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr))
+        srcFile =  open('out.txt', "wb")
         #time.sleep(0.1)
         while(i<size):
-            val=int(self.sendDataWithResponse("print("+eepromAddr+"."+str(bufSzCnt)+")\n"))
-           # srcFile.write(val.to_bytes(1, byteorder='big'))
+            strVal = self.sendDataWithResponse("print("+eepromAddr+"."+str(bufSzCnt)+")\n")
+            val=int(strVal[1:])
+            if (val == 0 or val == 255):
+                break
+            srcFile.write(val.to_bytes(1, byteorder='big'))
             print(val)
             bufSzCnt+=1
             i+=1
-            if(bufSzCnt >= buffSize):
-                self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr+i)) 
-                bufSzCnt = 0  
-                time.sleep(0.05)     
+            #if(bufSzCnt >= buffSize):
+             #   self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr+i)) 
+              #  bufSzCnt = 0  
+            # time.sleep(0.05)     
         return 
 
-    def sendFileToEEPROM(self, fName, eepromAddr="0xee"):
+    def getEEPROM(self,  size, eepromAddr="0xe0",  startAddr=0, buffSize=20 ):
+        i=0
+        bufSzCnt=0
+       # self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr))
+        srcFile =  open('out.txt', "wb")
+        #time.sleep(0.1)
+        while(i<100):
+            strVal = self.sendDataWithResponse("getl(100,"+eepromAddr+","+str(bufSzCnt)+")\n")
+            if len(strVal)<5:
+                break
+            print(strVal)            
+            bufSzCnt+=len(strVal)-2            
+            i+=1
+            srcFile.write(strVal[1:].encode())   
+        return 
+
+
+    def sendFileToEEPROM(self, fName, eepromAddr="0xe0"):
         srcFile =  open(fName, "r")
         writeAddr = 0
         for commandStr in srcFile:
             print(commandStr)
-            outStr=self.sendDataWithResponse(eepromAddr+".0x81="+str(writeAddr)+"\n")
-            print(outStr)
+            #print(outStr)
             time.sleep(0.05)    
            # mbOut=commandStr.encode(encoding='utf_8', errors='strict')
             mbOut=eepromAddr+'='+'"'+commandStr.rstrip('\n')+'"'+"\n"
@@ -123,11 +137,11 @@ try:
     shCont.openPort()
     print("Waiting boot ...")
     time.sleep(2.0)
-    #shCont.eraseEEPROM(size=40,startAddr=0) 
+    #shCont.eraseEEPROM(size=20,startAddr=300) 
     #shCont.sendFileToEEPROM(r"e:/test/test_3b.txt") 
-    shCont.sendFileToEEPROM(r"e:/test/3but_1.txt") 
-    #shCont.readEEPROM(size=40,startAddr=0)  
-    #shCont.sendFileAndExec(r"e:/test/test_3b.txt") 
+    #shCont.sendFileToEEPROM(r"e:/test/3but_1.txt") 
+    #shCont.getEEPROM(size=20,startAddr=0)  
+    shCont.sendFileAndExec(r"e:/test/out1.txt") 
     #shCont.sendFileAndExec(r"e:/test/3but_1.txt")
     #ser.reset_input_buffer()              
     shCont.closePort()

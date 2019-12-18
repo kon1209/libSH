@@ -88,9 +88,9 @@ void DimmerArray::process(){
    SmartHomeObjValue btnValue;
      for (byte  i=0;i<DIM_NUM; i++){
    word currState =dimmers[i]._outState;
-    if( pController -> sendMsg(SH_MSG_READ_VALUE,0x600,0)){//button pressed 
+    if( pController -> sendMsg(SH_MSG_READ_VALUE, dimmers[i]._inProviderAddr,0)){//button pressed 
    //press duration
-   btnValue =  pController -> sendMsg(SH_MSG_READ_VALUE,0x600+1,0); //duration
+   btnValue =  pController -> sendMsg(SH_MSG_READ_VALUE, dimmers[i]._inProviderAddr+1,0); //duration
    //if( btnValue >= BTN_PRESSED){//button pressed
     dimmers[i]._trigTime = millis();    
    switch (dimmers[i]._state){
@@ -152,9 +152,8 @@ void DimmerArray::process(){
 		   dimmers[i]._trigTime = 0;
 		   }
 	   }
-   }
-   
-   if(currState != dimmers[i]._outState)  pController -> sendMsg(SH_MSG_WRITE_VALUE,0x600,dimmers[i]._outState);
+   }   
+   if(currState != dimmers[i]._outState)  pController -> sendMsg(SH_MSG_WRITE_VALUE, dimmers[i]._outProviderAddr, dimmers[i]._outState);
    }
 }
 

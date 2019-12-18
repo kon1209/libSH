@@ -24,13 +24,14 @@ class Button: public Pin {
 
 
 
-class ButtonArray: public SmartHomeObject {
+class ButtonArray: public  SmartHomeObject   {
 struct Button{
+    SmartHomeObjAddr _inProviderAddr;
     byte _state;
     long _timePressed;
     word _outState;
 } buttons[BTN_NUM];
-
+word _index = 0 ;
   public:
     ButtonArray(){};
     virtual SmartHomeObjValue readValue(byte valId);

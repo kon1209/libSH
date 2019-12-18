@@ -4,35 +4,6 @@ shTokenizer::shTokenizer(){
   pos = NULL;
 }
 
-/*
-word shTokenizer::encodeID( char * pTok, byte len){
-  word result = 0;
-if(len > 0 && len < 4){
-    if(isAlpha(*pTok) && isLowerCase(*pTok)){
-      result = (*pTok - 'a' + 1)<<11;
-      if(len > 1){
-        pTok++;
-        if(isAlpha(*pTok) && (isLowerCase(*pTok))){
-        result |= ((*pTok - 'a' + 1)<<6);
-        if(len > 2){
-           pTok++;
-          if(isAlpha(*pTok)){           
-            if(isUpperCase(*pTok)) result |= (*pTok - 'A' + 1);
-            else result |= (*pTok - 'a' + 1);
-          }else{//digit
-            result |=(*pTok - '0' + 53);
-          }         
-        }  
-      }
-      else{
-       result=0;
-      }
-    }//toklen>1  
-  }//first token Lower case
-}//check common len
-  return result;
-}
-*/
 
 void shTokenizer::begin(char * startPosition){
   pos = startPosition;

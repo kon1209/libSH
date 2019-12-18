@@ -7,7 +7,7 @@
 #define SH_MSG_READ_VALUE 1
 #define SH_MSG_WRITE_VALUE 2
 #define SH_MSG_UPDATE_VALUE 3
-
+#define SH_MSG_SET_IDX 4
 
 #define SHO_PRIO_LOWEST 0xF
 #define SHO_PRIO_LOW 0x7
@@ -37,6 +37,8 @@
 #define SHO_DIM  30
 #define SHO_BUF  40
 #define SHO_EEP  100
+#define SHO_BTNA  120
+#define SHO_DIMA  130
 //commands
 //
 #define SHC_NEW  1
@@ -51,6 +53,7 @@
 #define SHC_PRINT 243
 #define SHC_SET_BITS 244
 #define SHC_SET_BYTES 245
+#define SHC_GETL 246
 //ABCD - A - reserve, B -string direct param,  C-digit direct param,  D-params exists - 0000-(0 - 16) param cnt;
 #define SHP_NEEDOUT 0x80
 #define SHP_DSTR  0x40
@@ -64,7 +67,7 @@ typedef  unsigned long SmartHomeObjAddr;//1-st controller id, objId; second objv
 typedef  byte SmartHomeMsgId; // 
 */
 typedef  word SmartHomeObjValue;
-typedef  byte SmartHomeObjValueId;
+typedef  byte SmartHomeObjValueId;//byte
 typedef  byte SmartHomeObjId; // 
 typedef  word SmartHomeObjAddr;//1-st  objId, second valId
 typedef  byte SmartHomeMsgId; // 

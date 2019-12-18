@@ -32,13 +32,15 @@ class Dimmer: public Pin {
 #define DIM_NUM 16
 
 
-class DimmerArray: public SmartHomeObject {
+class DimmerArray: public SmartHomeObject{
   struct Dimmer{
     byte _state;
     word _outState; 
     long _trigTime;
-    SmartHomeObjAddr _inProviderAddr;
+    SmartHomeObjAddr _outProviderAddr;
+    SmartHomeObjAddr _inProviderAddr;   
     }dimmers[DIM_NUM];
+ word _index = 0 ;   
   public:
     DimmerArray(){};
     virtual SmartHomeObjValue readValue(byte valId){};

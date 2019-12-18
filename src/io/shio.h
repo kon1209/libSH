@@ -14,8 +14,8 @@ class Pin: public SmartHomeObject {
 	public:
 	Pin(SmartHomeObjAddr providerAddr, byte pinType);
 	Pin(word * params);
-    virtual SmartHomeObjValue readValue(byte valId);
-    virtual void writeValue(byte valId, SmartHomeObjValue shVal);
+    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
+    virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);
 	//virtual void process(void){/*readValue(_pinNum);*/};
 };
 
@@ -60,7 +60,7 @@ class Blinker: public Pin {
   public:
     Blinker(SmartHomeObjAddr providerAddr, byte outType);
     Blinker(word * params);
-   virtual void writeValue(byte valId, SmartHomeObjValue shVal);   
+   virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);   
    virtual void process(void);
 };
 
@@ -78,8 +78,8 @@ class DigitalIO: public SmartHomeObject {
   public:
       DigitalIO(){  };
       void process(void){};
-      virtual SmartHomeObjValue readValue(byte valId);
-     virtual void writeValue(byte valId, SmartHomeObjValue shVal);
+      virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
+     virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);
              
 };
 
@@ -88,8 +88,8 @@ class AnalogIO: public SmartHomeObject {
   public:
       AnalogIO(){};
       virtual void process(void){};
-      virtual SmartHomeObjValue readValue(byte valId);
-      virtual void writeValue(byte valId, SmartHomeObjValue shVal);        
+      virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
+      virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);        
 };
 
 

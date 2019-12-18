@@ -68,8 +68,8 @@ SmartHomeController::SmartHomeController(void){
 
 SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
   SmartHomeObjValue result = 0;
-
-                  SmartHomeObject * pObj = 0;  
+                  SmartHomeObject * pObj = 0;
+                  SHBuffer * pObjDst =0;
                   switch(cID)
                    {  
                       case SHC_NEW:
@@ -86,6 +86,7 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
                                  break;                                  
                       case SHC_RAM:
                                 result = freeRam();
+
                                  break;                                                            
                       case SHC_SETC: 
                                  pObj = findObject(params[0]>>8);
@@ -95,6 +96,8 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
                                  pObj = findObject(params[0]>>8);
                                  pObj ->writeValue(params[0]&0xff,params[1]);
                                  break;
+                                 
+                                 
                       case SHC_SET_BYTES: //TODO: rework - not correct
                                  pObj = findObject(params[0]);
                                  char * pBytes;
@@ -103,25 +106,50 @@ SmartHomeObjValue SmartHomeController::execCommand(byte cID, word * params) {
 									if(pBytes[i]=='"')break;
 									pObj ->writeValue(i, pBytes[i]);
                                  }
-                                 break;                                  
+                                 break;
+                                 
                       case SHC_SET_BITS: //TODO: rework - not correct
-                                 pObj = findObject(params[0]>>8);
+                                 pObj = findObject(params[0]);//src
 								 byte outNum ;
 								 if(pObj){
 									outNum = params[0]&0xff;
 									pObj ->writeValue(outNum,params[1]);
 								 }
-                                 break;    								 
+                                 break; 
+   								 
                       case SHC_GET: 
                                  pObj = findObject(params[0]>>8);
                                  if(pObj) result =pObj ->readValue(params[0]&0xff);
                                  break;
+                               
+                                 
                       case SHC_PRINT: 
                                  pObj = findObject((params[0]>>8));
                                  if(pObj){
-                                 result = pObj ->readValue((params[0]&0xff));
+                                  result = pObj ->readValue((params[0]&0xff));
                                  }
-                                 break;                 
+                                 break; 
+
+                        case SHC_GETL: 
+                                 pObjDst = (SHBuffer *)findObject(params[0]);
+                                 pObj = findObject(params[1]);
+                                 char cVal;
+                                 int i;
+                                  pObjDst ->_pBuff[0]='>';
+                                 if(pObjDst && pObj)
+                                 {
+                                    for(i=0; i<30;i++){
+                                        cVal =  pObj ->readValue(params[2]+i);
+                                        if(cVal== 0xa)break;
+                                        pObjDst ->_pBuff[i+1] =cVal;                                    									
+                                    }                                 
+                                 }
+                                    result =i+1;
+                                 break;
+                                 
+                           default:
+                                 return 0;
+                                  break;         
                     }
 return result;
 }
@@ -165,13 +193,14 @@ byte SmartHomeController::processObject(SmartHomeObjId oID, byte command)
 SmartHomeObject* SmartHomeController::addObject(SmartHomeObjId oId, SmartHomeObject* pObj, byte objClass){
  objectDescriptor * pObjDesc = new objectDescriptor; 
  byte priority = SHO_PRIO_LOW<<4;
- if(objClass == SHO_MBS) priority = SHO_PRIO_HIGHEST<<4;
+ if(objClass == SHO_MBS || objClass == SHO_CON || objClass == SHO_SER) priority = SHO_PRIO_HIGHEST<<4;
  
   //if(objClass == SHO_MBS || SHO_CON || SHO_EEP|| SHO_SER)
 	  pObjDesc->state = priority | SHO_ST_START;
  // else pObjDesc->state = priority | SHO_ST_STOP;
   //Serial.println( pObjDesc->state,HEX);
   pObjDesc->pObject = pObj;
+  
   objMap.add(oId, pObjDesc);
   return pObj;
 }

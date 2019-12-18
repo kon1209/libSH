@@ -10,7 +10,7 @@
 
 struct objectDescriptor{
     //char objName[OBJ_NAME_LEN];
-    //byte objClass;
+   // byte objClass;
     byte state = SHO_ST_STOP;
     SmartHomeObject * pObject;
 };

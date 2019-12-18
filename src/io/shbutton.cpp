@@ -4,7 +4,7 @@
 
 
 
-Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT){
+Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT) {
      _state = 0;
     _timePressed = 0;
      _outState = 0;
@@ -64,7 +64,7 @@ void ButtonArray::process(){
     buttons[i]._outState = B_RELEASED;
     buttons[i]._timePressed = 0;
   }
-   pinValue = 0;//pController -> sendMsg(SH_MSG_READ_VALUE,vProv,0);
+   pinValue = pController -> sendMsg(SH_MSG_READ_VALUE, buttons[i]._inProviderAddr,0);
   //button pressed
   if (buttons[i]._state == B_PRESSED){
         if(!pinValue){

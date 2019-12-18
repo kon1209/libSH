@@ -26,5 +26,10 @@ class SmartHomeObject {
 		virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal){};//{*getValuePointer(valId) = shVal;};
 };
 
+class SmartHomeArray: public SmartHomeObject{
+	public:
+    byte _indx = 0;
+};
+
 #endif
     
