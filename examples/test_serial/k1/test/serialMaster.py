@@ -74,7 +74,7 @@ class SHSerialTool:
         srcFile =  open('out.txt', "wb")
         #time.sleep(0.1)
         while(i<size):
-            strVal = self.sendDataWithResponse("print("+eepromAddr+"."+str(bufSzCnt)+")\n")
+            strVal = self.sendDataWithResponse("print("+eepromAddr+","+str(bufSzCnt)+")\n")
             val=int(strVal[1:])
             if (val == 0 or val == 255):
                 break
@@ -105,18 +105,16 @@ class SHSerialTool:
         return 
 
 
-    def sendFileToEEPROM(self, fName, eepromAddr="0xe0"):
+    def sendFileToEEPROM(self, fName, eepromAddr="0xe0", startAddr=0):
         srcFile =  open(fName, "r")
-        writeAddr = 0
+        writeAddr = startAddr
         for commandStr in srcFile:
             print(commandStr)
             #print(outStr)
             time.sleep(0.05)    
            # mbOut=commandStr.encode(encoding='utf_8', errors='strict')
-            mbOut=eepromAddr+'='+'"'+commandStr.rstrip('\n')+'"'+"\n"
+            mbOut=eepromAddr+'.' + str(writeAddr) +'='+'"'+commandStr.rstrip('\n')+'"'+"\n"
             print(self.sendDataWithResponse(mbOut))
-            time.sleep(0.05) 
-            print(self.sendDataWithResponse(eepromAddr + "." + str(len(commandStr)-1) + '=0xa\n' ))
             time.sleep(0.05) 
             #i=0
             #while(i<len(mbOut)):
@@ -124,8 +122,6 @@ class SHSerialTool:
              #   i+=1
             writeAddr = writeAddr+len(commandStr)
             #time.sleep(0.2)
-        print(self.sendDataWithResponse(eepromAddr+".0x81="+str(writeAddr+1)))      
-        print(self.sendDataWithResponse(eepromAddr + '.0=0' ))
         srcFile.close() 
 
 

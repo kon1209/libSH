@@ -67,7 +67,7 @@ typedef  unsigned long SmartHomeObjAddr;//1-st controller id, objId; second objv
 typedef  byte SmartHomeMsgId; // 
 */
 typedef  word SmartHomeObjValue;
-typedef  byte SmartHomeObjValueId;//byte
+typedef  word SmartHomeObjValueId;//byte
 typedef  byte SmartHomeObjId; // 
 typedef  word SmartHomeObjAddr;//1-st  objId, second valId
 typedef  byte SmartHomeMsgId; // 

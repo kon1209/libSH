@@ -53,7 +53,7 @@ return SmartHomeObject::processMsg(msgId,valId,msgVal);
 
 SmartHomeObjValue SHEeprom::readValue(SmartHomeObjValueId valId)
 { 
-Serial.println(valId);
+//Serial.println(valId);
  if(valId  < EEPROM.length()) return EEPROM[valId ];
   }
 

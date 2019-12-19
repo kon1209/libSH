@@ -22,7 +22,7 @@ const funcDesc fDescs[]   ={ //objects
                    {"getl",( SHP_NEEDOUT | SHP_EXIST | 3), SHC_GETL},
                    {"stop",( SHP_EXIST | 1), SHC_STOP},
                    {"start",( SHP_EXIST | 1), SHC_START},                   
-                   {"print",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_PRINT},  
+                   {"print",( SHP_NEEDOUT | SHP_EXIST | 2), SHC_PRINT},  
                    //{"sbit",(  SHP_EXIST | 3), SHC_SET_BITS},				   
                    };
 
@@ -127,23 +127,31 @@ void SHConsole::process(void){
                           if( lType == '.' && pObj){                          
                             lType = pTokenizer -> getToken(&ntok);
                             if(lType == TTYPE_NUMVAL){                                                        
-                                params[0]=digParam<<8;                                           
-                                params[0]+=  strtol( ntok.ptok,NULL,0);
+                                params[0] = digParam;                                           
+                                params[1] = strtol( ntok.ptok,NULL,0);
                                 lType = pTokenizer -> getToken(&ntok);
                                 if( lType == '=')
                                 {
                                  lType = pTokenizer -> getToken(&ntok);
                                    if(lType == TTYPE_NUMVAL)
                                    {
-                                    params[1]=  strtol( ntok.ptok,NULL,0);
+                                    params[2]=  strtol( ntok.ptok,NULL,0);
                                      errOut = 0; 
                                      result = pController -> execCommand(SHC_SETC,params);
                                      break; 
+                                   }else
+                                   {
+                                     if(lType=='"') {
+                                    params[2]=(word)(ntok.ptok+1);
+                                    errOut = 0; 
+                                    result = pController -> execCommand(SHC_SET_BYTES,params);                                   
+                                   }
                                    }
                                 }
                               }                           
                             //if pObj                                                              
-                         }else{                        
+                         }else
+                         {                        
                             if( lType == '=' ){
                             if(!pObj){  //object definition
                             lType = pTokenizer -> getToken(&ntok);
@@ -164,14 +172,9 @@ void SHConsole::process(void){
                             }
                             }else// !pobj 
                             {
-                                lType = pTokenizer -> getToken(&ntok);
-                                if(lType=='"') {
-                                    params[0]=digParam;
-                                    params[1]=(word)(ntok.ptok+1);
-                                    errOut = 0; 
-                                    result = pController -> execCommand(SHC_SET_BYTES,params); 
+                                errOut = 0xE6;
                             }
-                            }
+                            
                           }//lType 
                          } //if =  
                          
@@ -200,7 +203,7 @@ void SHConsole::process(void){
                     lType = pTokenizer -> getToken(&ntok);
                      if(lType == TTYPE_CHARVAL){                                            
                          strPar = ntok.ptok + 1;
-                         char * pCh =  strchr(strPar,TTYPE_CHARVAL);
+                         char * pCh =  strchr(strPar, );
                          if(strlen(strPar)>2 && pCh){                          
                           *pCh = 0;
                        
