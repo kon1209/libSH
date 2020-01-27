@@ -29,7 +29,7 @@ class Dimmer: public Pin {
     virtual void process(void);
 };
 
-#define DIM_NUM 16
+#define DIM_NUM 32
 
 
 class DimmerArray: public SmartHomeObject{

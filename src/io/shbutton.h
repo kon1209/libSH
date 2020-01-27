@@ -8,7 +8,7 @@
 #define B_RELEASED 0
 #define BTN_PRESSED 50
 //
-#define BTN_NUM 16
+#define BTN_NUM 32
 
 class Button: public Pin {
   protected:
