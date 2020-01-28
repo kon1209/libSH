@@ -23,6 +23,8 @@ enum {
     MB_FC_WRITE_REG        = 0x06, // Preset Single Register 4xxxx
    // MB_FC_WRITE_COILS      = 0x0F, // Write Multiple Coils (Outputs) 0xxxx
     MB_FC_WRITE_REGS       = 0x10, // Write block of contiguous registers 4xxxx
+    MB_FC_READ_GEN_REF      = 0x14, // Write general reference file    
+    MB_FC_WRITE_GEN_REF      = 0x15, // Write general reference file
 };
 
 //Exception Codes

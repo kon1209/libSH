@@ -19,17 +19,13 @@ SHBuffer::~SHBuffer(){
     if(_bufSize >0) free(_pBuff);
 }
 
-SmartHomeObjValue SHBuffer::readValue(byte valId)
+SmartHomeObjValue SHBuffer::readValue(SmartHomeObjValueId valId)
 { 
- /*
- if(valId == SH_BUFF_OP){
- return (SmartHomeObjValue) _pBuff;
-} */
  if(_bufSize && valId < _bufSize ) return _pBuff[valId];
  return 0;
   }
 
-void SHBuffer::writeValue(byte valId, SmartHomeObjValue shVal)
-{// if(valId == 0) memset(_pBuff,0,_bufSize);
+void SHBuffer::writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal)
+{
   if(_bufSize && valId < _bufSize )  _pBuff[valId]=shVal ; 
   }  

@@ -41,9 +41,6 @@ void SHEeprom::process(void){
 
 
 SmartHomeObjValue SHEeprom::processMsg(SmartHomeMsgId msgId, SmartHomeObjValueId valId, SmartHomeObjValue  msgVal){
-/*if(msgId == SH_MSG_UPDATE_INDEX) {
-    _index = shVal;
-    return ; }*/
 if(msgId == SH_MSG_UPDATE_VALUE){  
   needUpdate = true;
   return 0;

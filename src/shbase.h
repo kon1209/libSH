@@ -54,6 +54,7 @@
 #define SHC_SET_BITS 244
 #define SHC_SET_BYTES 245
 #define SHC_GETL 246
+#define SHC_END 248
 //ABCD - A - reserve, B -string direct param,  C-digit direct param,  D-params exists - 0000-(0 - 16) param cnt;
 #define SHP_NEEDOUT 0x80
 #define SHP_DSTR  0x40

@@ -13,8 +13,8 @@ class SHBuffer: public SmartHomeObject {
 	SHBuffer(SmartHomeObjValue bufSz);
     SHBuffer(word * params);
     ~SHBuffer();
-    virtual SmartHomeObjValue readValue(byte valId);
-    virtual void writeValue(byte valId, SmartHomeObjValue shVal);
+    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
+    virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);
 	virtual void process(void){};    
 };
 

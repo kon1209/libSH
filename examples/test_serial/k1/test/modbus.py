@@ -5,7 +5,7 @@ import modbus_tk.defines as tkCst
 import modbus_tk.modbus_rtu as tkRtu
 
 
-portName = 'com2'
+portName = 'com30'
 baudrate = 38400
 timeoutSp=0.1 
 portNbr = 21
@@ -15,13 +15,11 @@ iterSp = 1
 tb = None
 
 def sendDataWithResponse(slID,tkval,inBuff, outBuff, data):
-  #  data+=0x0d0a.to_bytes(2,byteorder='big', signed=True);
-    print(data)
+    #data+=0x0d0a.to_bytes(2,byteorder='big', signed=True);
+    #print(data)
     errCnt = sendData(slID,tkval,inBuff, data)
     if(errCnt>0):
         return errCnt
-        #tkmc.execute(slaveId, tkCst.WRITE_SINGLE_REGISTER, 0x700, output_value=i&1)
-        #tkval.execute( slID, tkCst.WRITE_MULTIPLE_REGISTERS, inBuff,outLength, output_value=data)
     time.sleep(0.2)
     #tkmc.execute(slaveId, tkCst.WRITE_SINGLE_REGISTER, 0xc, output_value=202)     
     errCnt,tup= readData(slID, tkval,outBuff, 20)    
@@ -39,6 +37,8 @@ def sendData(slID,tkval,inBuff, data):
     return errCnt
 
 def readData(slID,tkval,outBuff,readLen):
+    #status="read data slID - {},tkval - {},outBuff -{},readLen - {}".format(slID,tkval,outBuff,readLen)
+    #print(status)
     errCnt =0
     tup=[]
     try:
@@ -100,18 +100,15 @@ def eraseEEPROM(slID, tkval,eepromAddr, size, startAddr=0,buffSize=30 ):
 def readEEPROM(slID, tkval,eepromAddr,  size, startAddr=0, buffSize=20 ):
     i=0
     commonTup =[]
-    tkval.execute(slID, tkCst.WRITE_SINGLE_REGISTER, (eepromAddr&0xFF00)+0x81, output_value=startAddr)
-    time.sleep(0.1)
+    readAddress = (eepromAddr<<8) + startAddr
     while(i<size):
         if(i+buffSize>size):
-            errCnts, outTup = readData(slaveId,tkmc,0xEE00,size-i)
+            errCnts, outTup = readData(slID,tkval,readAddress + i,size-i)
         else:
-            errCnts, outTup = readData(slaveId,tkmc,0xEE00,buffSize)
+            errCnts, outTup = readData(slID,tkval,readAddress + i,buffSize)
         commonTup+=outTup   
         time.sleep(0.05)
         i+=buffSize
-        tkval.execute(slID, tkCst.WRITE_SINGLE_REGISTER, (eepromAddr&0xFF00)+0x81, output_value=startAddr+i)
-        time.sleep(0.05)
     return commonTup
 
 
@@ -125,30 +122,12 @@ startTs = time.time()
 #stop console
 #sendData(slaveId,tkmc,0x00, [3,3])
 time.sleep(0.2)
-#sendData(slaveId,tkmc,0x00, [241,1,0,0x30])
+#sendData(slaveId,tkmc,0x0700, [0x200])
+sendFileAndExec(tkmc, r"e:/test/out3.txt", slaveId, 0x6400, 0x6400)
+
 time.sleep(0.2)
-
-
-commandStr="ram(0)\n"
-print(commandStr)
-mbOut=commandStr.encode(encoding='utf_8', errors='strict')
-#mbOut+=0x0d0a.to_bytes(2,byteorder='big', signed=True);
-errCnts,outTup = sendDataWithResponse(slaveId,tkmc ,0x3000, 0x3100, mbOut)
-outStr = ''.join([str(chr(i)) for i in outTup])
-if errCnts >0:
-    print ("   !modbus-tk:\terrCnt: %s; last tb: %s" % (errCnts, tb))
-print(outStr)                      
-
-
-
-#sendFileToEEPROM(tkmc,  r"e:/test/test_1.txt", slaveId, 0xEE00)
-#time.sleep(0.2)
-
-
-#eraseEEPROM(slaveId,tkmc,0xEE00,100)
-#time.sleep(0.2)
-
-commonTup=readEEPROM(slaveId,tkmc,0xEE00,100)
+commonTup=readEEPROM(slaveId,tkmc,0xE0,150)
+#print(commonTup)
 
 outStr = ''
 for i in commonTup:
@@ -156,13 +135,33 @@ for i in commonTup:
         break
     outStr += ''.join([str(chr(i))])
     
+print(outStr)
+
+
+#commandStr="ram(0)\n"
+#commandStr="7=blk(0x60d,0)"
+commandStr="7.0=500\n"
+print(commandStr)
+mbOut=commandStr.encode(encoding='utf_8', errors='strict')
+#mbOut+=0x0d0a.to_bytes(2,byteorder='big', signed=True);
+errCnts,outTup = sendDataWithResponse(slaveId,tkmc ,0x6400, 0x6400, mbOut)
+outStr = ''.join([str(chr(i)) for i in outTup])
+if errCnts >0:
+    print ("   !modbus-tk:\terrCnt: %s; last tb: %s" % (errCnts, tb))
 print(outStr)                      
+
+quit()
+
+#sendFileToEEPROM(tkmc,  r"e:/test/test_1.txt", slaveId, 0xEE00)
+#time.sleep(0.2)
+
+#eraseEEPROM(slaveId,tkmc,0xEE00,100)
+#time.sleep(0.2)                  
 
 #sendFileAndExec(tkmc, r"e:/test/test.txt", slaveId, 0x3000, 0x3100) 
 
 #sendData(slaveId,tkmc,0x00, [241,1,0,0x30])
-time.sleep(0.2)
-sendData(slaveId,tkmc,0x00, [4,1])
+
 
 stopTs = time.time()
 tkmc.close()

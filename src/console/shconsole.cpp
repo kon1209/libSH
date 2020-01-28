@@ -22,7 +22,8 @@ const funcDesc fDescs[]   ={ //objects
                    {"getl",( SHP_NEEDOUT | SHP_EXIST | 3), SHC_GETL},
                    {"stop",( SHP_EXIST | 1), SHC_STOP},
                    {"start",( SHP_EXIST | 1), SHC_START},                   
-                   {"print",( SHP_NEEDOUT | SHP_EXIST | 2), SHC_PRINT},  
+                   {"print",( SHP_NEEDOUT | SHP_EXIST | 2), SHC_PRINT},
+                   {"end",0, SHC_END},                   
                    //{"sbit",(  SHP_EXIST | 3), SHC_SET_BITS},				   
                    };
 
@@ -49,7 +50,8 @@ SHConsole::SHConsole(SmartHomeObjValue bufSz ):SHBuffer(bufSz)
  char *i2str(int i, char *buf, byte l){
 
   if (i==0)buf[l++]='0';
-  else{
+  else
+  {
   if(i<0) buf[l++]='-';
   boolean leadingZ=true;
   for(int div=10000, mod=0; div>0; div/=10){
@@ -72,7 +74,7 @@ void SHConsole::process(void){
   funcDesc fDes;
   word result;
  // return;
-  if ((*_pBuff !=0) && (*_pBuff !=0xff) )
+  if ((*_pBuff !='>') && (*_pBuff !=0) && (*_pBuff !=0xff) )
   {
   int num = strlen(_pBuff);
   if(num >2){
@@ -84,7 +86,6 @@ void SHConsole::process(void){
     char lType;
     byte fNum;
     //Serial.println(_pBuff);
-   long proctime = micros();
     lType = pTokenizer -> getToken(&tok);   
       switch (lType)
       {
@@ -95,34 +96,7 @@ void SHConsole::process(void){
                           SmartHomeObject * pObj;      
                           digParam = strtol( tok.ptok,NULL,0);                         
                           lType = pTokenizer -> getToken(&ntok);
-                          pObj = pController->findObject(digParam);
-                          /*
-                           if( lType == '[' && pObj){ 
-                
-                            lType = pTokenizer -> getToken(&ntok);
-                            if(lType == TTYPE_NUMVAL){  
-                                byte indx = strtol( ntok.ptok,NULL,0);
-                                lType = pTokenizer -> getToken(&ntok);
-                                if( lType == ']'){
-                                params[0]=digParam<<8;                                           
-                                params[0]+=  strtol( ntok.ptok,NULL,0);
-                                lType = pTokenizer -> getToken(&ntok);
-                                if( lType == '=')
-                                {
-                                 lType = pTokenizer -> getToken(&ntok);
-                                   if(lType == TTYPE_NUMVAL)
-                                   {
-                                    params[1]=  strtol( ntok.ptok,NULL,0);
-                                     errOut = 0; 
-                                     result = pController -> execCommand(SHC_SETC,params);
-                                     break; 
-                                   }
-                                }
-                              } 
-                                }                              
-                            //if pObj                                                              
-                         }   */                      
-                          
+                          pObj = pController->findObject(digParam);                         
                           //
                           if( lType == '.' && pObj){                          
                             lType = pTokenizer -> getToken(&ntok);
@@ -173,8 +147,7 @@ void SHConsole::process(void){
                             }else// !pobj 
                             {
                                 errOut = 0xE6;
-                            }
-                            
+                            }                           
                           }//lType 
                          } //if =  
                          
@@ -190,27 +163,7 @@ void SHConsole::process(void){
                            if ((fDes.paramCnt & SHP_EXIST)){  
                                 errOut = pTokenizer ->getParams((fDes.paramCnt & 0xf), params);
                                 if(errOut) break;     
-                            }//end if - check params 
-
-                  /*     
-                    if ((fDes.paramCnt & SHP_DDIG)){ 
-                       lType = pTokenizer -> getToken(&ntok);
-                       if(lType == TTYPE_NUMVAL){                                            
-                         digParam =  strtol( ntok.ptok,NULL,0);
-                       }
-                    }//end digit processing
-                   if ((fDes.paramCnt & SHP_DSTR)){ 
-                    lType = pTokenizer -> getToken(&ntok);
-                     if(lType == TTYPE_CHARVAL){                                            
-                         strPar = ntok.ptok + 1;
-                         char * pCh =  strchr(strPar, );
-                         if(strlen(strPar)>2 && pCh){                          
-                          *pCh = 0;
-                       
-                         }
-                       }
-                   }//end str processing
-                   */                               
+                            }//end if - check params                               
                         result = pController -> execCommand(fDes.fId,params); 
                        }                 
                      

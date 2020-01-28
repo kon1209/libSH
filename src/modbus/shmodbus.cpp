@@ -19,21 +19,34 @@ void ModbusSmartHome::addHreg(word offset, word value ){
         return;     
      }
 
- word ModbusSmartHome::Hreg(word offset) {
-    
+ word ModbusSmartHome::Hreg(word offset) {   
     byte providerId = offset>>8;
+    word bank = 0;
+    //temporary fix for eeprom 16 banks x 256 = 4k 
+    //should be replaced with read/write general reference
+    if (providerId >0xe0 and providerId <0xf0){
+        bank = (providerId & 0xf)<<8;
+        providerId = 0xe0;
+    }
     SmartHomeObject * _valueProvider = pController->findObject(providerId);
     if(_valueProvider){ 
-     return _valueProvider ->readValue(offset&0xff);     
+     return _valueProvider ->readValue((offset&0xff)+bank);     
     }
     return 0;
 } 
 
    bool ModbusSmartHome::Hreg(word offset, word value) {//add 40001
     byte providerId = offset>>8;
+    word bank = 0;
+    //temporary fix for eeprom 16 banks x 256 = 4k 
+    //should be replaced with read/write general reference
+    if (providerId >0xe0 and providerId <0xf0){
+        bank = (providerId & 0xf)<<8;
+        providerId = 0xe0;
+    }    
     SmartHomeObject * _valueProvider = pController->findObject(providerId);
     if(_valueProvider){
-       _valueProvider ->writeValue(offset&0xff, value);
+       _valueProvider ->writeValue((offset&0xff)+bank, value);
        return true;
     }
     return false;
