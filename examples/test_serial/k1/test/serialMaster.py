@@ -116,10 +116,6 @@ class SHSerialTool:
             mbOut=eepromAddr+'.' + str(writeAddr) +'='+'"'+commandStr.rstrip('\n')+'"'+"\n"
             print(self.sendDataWithResponse(mbOut))
             time.sleep(0.05) 
-            #i=0
-            #while(i<len(mbOut)):
-             #   self.sendDataWithResponse(eepromAddr + "." + str(i) + '=' + str(mbOut[i]) + "\n")
-             #   i+=1
             writeAddr = writeAddr+len(commandStr)
             #time.sleep(0.2)
         srcFile.close() 
