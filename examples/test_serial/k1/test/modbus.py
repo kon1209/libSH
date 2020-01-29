@@ -33,7 +33,7 @@ time.sleep(0.2)
 #sendFileAndExec(tkmc, r"e:/test/out3.txt", slaveId, 0x6400, 0x6400)
 #sendFileToEEPROM(tkmc,  r"e:/test/out2.txt", slaveId, 0xE0)
 time.sleep(0.2)
-commonTup=slave1.readEEPROM(slaveId,tkmc,0xE0,150)
+commonTup=slave1.readEEPROM(0xE0,150)
 #print(commonTup)
 
 outStr = ''
@@ -51,7 +51,7 @@ commandStr="ram(0)\n"
 print(commandStr)
 mbOut=commandStr.encode(encoding='utf_8', errors='strict')
 #mbOut+=0x0d0a.to_bytes(2,byteorder='big', signed=True);
-errCnts,outTup = slave1.sendDataWithResponse(slaveId,tkmc ,0x6400, 0x6400, mbOut)
+errCnts,outTup = slave1.sendDataWithResponse(0x6400, 0x6400, mbOut)
 outStr = ''.join([str(chr(i)) for i in outTup])
 if errCnts >0:
     print ("   !modbus-tk:\terrCnt: %s; last tb: %s" % (errCnts, tb))
