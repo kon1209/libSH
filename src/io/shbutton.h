@@ -18,7 +18,7 @@ class Button: public Pin {
   public:
     Button(SmartHomeObjAddr inProviderAddr);
     Button(word * params);
-    virtual SmartHomeObjValue readValue(byte valId);
+    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
     virtual void process(void);
 };
 
@@ -34,7 +34,7 @@ struct Button{
 word _index = 0 ;
   public:
     ButtonArray(){};
-    virtual SmartHomeObjValue readValue(byte valId);
+    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
     virtual void process(void);
 };
 

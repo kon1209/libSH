@@ -14,7 +14,7 @@ Button::Button(word * params):Button(params[0]){
 }
 
 
-SmartHomeObjValue Button::readValue(byte valId){
+SmartHomeObjValue Button::readValue(SmartHomeObjValueId valId){
   if(valId == 0) return (SmartHomeObjValue)  _outState;
   if(valId == 1) return (SmartHomeObjValue)  _timePressed;
   return _outState;
@@ -51,7 +51,7 @@ void Button::process(){
   }
 }
 
-SmartHomeObjValue ButtonArray::readValue(byte valId){
+SmartHomeObjValue ButtonArray::readValue(SmartHomeObjValueId valId){
  // if(valId == 0) return (SmartHomeObjValue)  _outState;
   //if(valId == 1) return (SmartHomeObjValue)  _timePressed;
   return 0;//_outState;

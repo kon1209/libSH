@@ -6,7 +6,7 @@ import modbus_tk.modbus_rtu as tkRtu
 import mbSlave
 
 
-portName = 'com30'
+portName = 'com5'
 baudrate = 38400
 timeoutSp=0.1 
 portNbr = 21
@@ -33,7 +33,7 @@ time.sleep(0.2)
 #sendFileAndExec(tkmc, r"e:/test/out3.txt", slaveId, 0x6400, 0x6400)
 #sendFileToEEPROM(tkmc,  r"e:/test/out2.txt", slaveId, 0xE0)
 time.sleep(0.2)
-commonTup=slave1.readEEPROM(0xE0,150)
+commonTup=slave1.readEEPROM(0xE0,200)
 #print(commonTup)
 
 outStr = ''
@@ -45,9 +45,13 @@ for i in commonTup:
 print(outStr)
 
 
-commandStr="ram(0)\n"
-#commandStr="7=blk(0x60d,0)"
+#commandStr="ram(0)\n"
+commandStr="7=blk(0x60d,0)"
 #commandStr="7.0=500\n"
+               
+
+
+commandStr="7.0=1200\n"
 print(commandStr)
 mbOut=commandStr.encode(encoding='utf_8', errors='strict')
 #mbOut+=0x0d0a.to_bytes(2,byteorder='big', signed=True);

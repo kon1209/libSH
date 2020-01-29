@@ -2,7 +2,7 @@ import serial
 import time
 #from serial import Serial
 
-portName = 'com28'
+portName = 'com3'
 baudrate = 38400
 timeoutSp=0.1 
 
@@ -132,8 +132,8 @@ try:
     #shCont.eraseEEPROM(size=20,startAddr=300) 
     #shCont.sendFileToEEPROM(r"e:/test/test_3b.txt") 
     #shCont.sendFileToEEPROM(r"e:/test/3but_1.txt") 
-    #shCont.getEEPROM(size=20,startAddr=0)  
-    shCont.sendFileAndExec(r"e:/test/out2.txt") 
+    shCont.getEEPROM(size=20,startAddr=0)  
+    #shCont.sendFileAndExec(r"e:/test/out2.txt") 
     #shCont.sendFileAndExec(r"e:/test/3but_1.txt")
     #ser.reset_input_buffer()              
     shCont.closePort()

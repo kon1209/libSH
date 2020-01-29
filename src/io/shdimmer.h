@@ -25,7 +25,7 @@ class Dimmer: public Pin {
   public:
     Dimmer(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr);
     Dimmer(word * params);
-    virtual SmartHomeObjValue readValue(byte valId){};
+    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId){};
     virtual void process(void);
 };
 
@@ -43,7 +43,7 @@ class DimmerArray: public SmartHomeObject{
  word _index = 0 ;   
   public:
     DimmerArray(){};
-    virtual SmartHomeObjValue readValue(byte valId){};
+    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId){};
     virtual void process(void);
 };
 
