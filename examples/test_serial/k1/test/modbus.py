@@ -30,10 +30,11 @@ time.sleep(0.2)
 #eraseEEPROM(slaveId,tkmc,0xE000,100)
 #quit()
 #sendData(slaveId,tkmc,0x0700, [0x200])
-#sendFileAndExec(tkmc, r"e:/test/out3.txt", slaveId, 0x6400, 0x6400)
+slave1.sendFileAndExec( r"out.txt", 0x6400, 0x6400)
 #sendFileToEEPROM(tkmc,  r"e:/test/out2.txt", slaveId, 0xE0)
 time.sleep(0.2)
-commonTup=slave1.readEEPROM(0xE0,200)
+quit()
+#commonTup=slave1.readEEPROM(0xE0,200)
 #print(commonTup)
 
 outStr = ''
@@ -45,13 +46,13 @@ for i in commonTup:
 print(outStr)
 
 
-#commandStr="ram(0)\n"
-commandStr="7=blk(0x60d,0)"
+commandStr="ram(0)\n"
+#commandStr="7=blk(0x60d,0)"
 #commandStr="7.0=500\n"
                
 
 
-commandStr="7.0=1200\n"
+#commandStr="7.0=1200\n"
 print(commandStr)
 mbOut=commandStr.encode(encoding='utf_8', errors='strict')
 #mbOut+=0x0d0a.to_bytes(2,byteorder='big', signed=True);
