@@ -1,23 +1,21 @@
-
 #include "shbutton.h"
 #include "shcont.h"
 
 
-
-Button::Button(SmartHomeObjAddr inProviderAddr):Pin( inProviderAddr,INPUT) {
-     _state = 0;
+Button::Button(SmartHomeObjAddr inProviderAddr, SmartHomeObjValue inType):Pin( inProviderAddr,INPUT) {
+    _state = 0;
     _timePressed = 0;
-     _outState = 0;
+    _outState = 0;
+    _inType = inType;
 }
 
-Button::Button(word * params):Button(params[0]){
+Button::Button(word * params):Button(params[0],params[1]){
 }
 
 
 SmartHomeObjValue Button::readValue(SmartHomeObjValueId valId){
-  if(valId == 0) return (SmartHomeObjValue)  _outState;
-  if(valId == 1) return (SmartHomeObjValue)  _timePressed;
-  return _outState;
+  if(valId == 0) return (SmartHomeObjValue)  ((_timePressed&0x7fff) | (_outState==B_PRESSED?0x8000:0));
+  return 0;
 }
 
 void Button::process(){
@@ -29,7 +27,7 @@ void Button::process(){
    pinValue = pController -> sendMsg(SH_MSG_READ_VALUE,vProv,0);
   //button pressed
   if (_state == B_PRESSED){
-        if(!pinValue){
+        if(pinValue != _inType){
            _state = B_RELEASED;
            _timePressed = millis() - _timePressed;
            if ( _timePressed > BTN_PRESSED){            
@@ -43,7 +41,7 @@ void Button::process(){
   }
   else//button released
   {
-    if(pinValue)
+    if(pinValue == _inType)
     {
       _state = B_PRESSED;
       _timePressed = millis();

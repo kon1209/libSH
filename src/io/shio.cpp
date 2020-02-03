@@ -2,6 +2,29 @@
 #include "shio.h"
 #include "shcont.h"
 
+//link object
+Link::Link(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr)
+{	
+    _inAddr = inProviderAddr;
+    _outAddr = outProviderAddr;
+    _out = 0;
+}
+
+Link::Link(word * params): Link(params[0],params[1])
+{ 
+}
+
+
+void Link::process(){ 
+    SmartHomeObjValue inVal = pController->sendMsg(SH_MSG_READ_VALUE, _inAddr,0);
+	if(_out != inVal){
+	_out = inVal;	
+    pController->sendMsg(SH_MSG_WRITE_VALUE, _outAddr, _out);
+    }
+}
+
+
+
 //Pin object
 Pin::Pin(SmartHomeObjAddr providerAddr, byte pinType)
 { 

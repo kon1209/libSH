@@ -7,6 +7,19 @@
 #define SHO_PIN_PNUM 1
 #define SHO_PIN_PTYPE 2
 
+class Link: public SmartHomeObject {
+	protected:
+		   // byte _out;
+            SmartHomeObjAddr _inAddr;
+            SmartHomeObjAddr _outAddr;
+            SmartHomeObjValue _out;
+	public:
+	Link(SmartHomeObjAddr inProviderAddr, SmartHomeObjAddr outProviderAddr);
+	Link(word * params);
+	virtual void process(void);
+};
+
+
 class Pin: public SmartHomeObject {
 	protected:
 		//byte _pinNum;

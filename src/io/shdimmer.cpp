@@ -44,7 +44,7 @@ void Dimmer::writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal)
 
 void Dimmer::process(){
    word currState = _outState;
-   if(inputValue){ 
+   if(inputValue&0x8000){ 
     //if( pController -> sendMsg(SH_MSG_READ_VALUE,_inProviderAddr,0)){//button pressed 
    //press duration
   // inputValue =  pController -> sendMsg(SH_MSG_READ_VALUE,_inProviderAddr+1,0); //duration

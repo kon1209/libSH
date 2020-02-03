@@ -57,7 +57,10 @@ SmartHomeController::SmartHomeController(void){
                         break;                                
 				    case SHO_REPTR:                        
                         pObj = (SmartHomeObject *) new Repeater(&params[1]);                      
-                        break;                                
+                        break; 
+ 				    case SHO_LINK:                        
+                        pObj = (SmartHomeObject *) new Link(&params[1]);                      
+                        break;                                                       
                    default:
                           return 0;
                         break;

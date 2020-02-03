@@ -14,9 +14,10 @@ class Button: public Pin {
   protected:
     byte _state;
     long _timePressed;
-    word _outState;
+    byte _outState;
+    byte _inType;
   public:
-    Button(SmartHomeObjAddr inProviderAddr);
+    Button(SmartHomeObjAddr inProviderAddr, SmartHomeObjValue inType);
     Button(word * params);
     virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
     virtual void process(void);

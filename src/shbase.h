@@ -26,6 +26,7 @@
 #define SHO_MBS  4
 #define SHO_DIO  5
 #define SHO_AIO  6
+#define SHO_LINK 7
 #define SHO_I2E  10
 #define SHO_I2P  11
 #define SHO_PIN  20
