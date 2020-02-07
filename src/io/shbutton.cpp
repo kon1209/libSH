@@ -28,16 +28,17 @@ void Button::process(){
   //button pressed
   if (_state == B_PRESSED){
         if(pinValue != _inType){
-           _state = B_RELEASED;
-           _timePressed = millis() - _timePressed;
-           if ( _timePressed > BTN_PRESSED){            
+            _state = B_RELEASED;
+            _timePressed = millis() - _timePressed;
+            if ( _timePressed > BTN_PRESSED)
+            {            
                _outState = B_PRESSED;
             }
          }
-    else//still pressed
-    {
+        else//still pressed
+        {
       
-    }
+        }
   }
   else//button released
   {

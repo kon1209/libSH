@@ -44,15 +44,14 @@ void Dimmer::writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal)
 
 void Dimmer::process(){
    word currState = _outState;
-   if(inputValue&0x8000){ 
-    //if( pController -> sendMsg(SH_MSG_READ_VALUE,_inProviderAddr,0)){//button pressed 
-   //press duration
-  // inputValue =  pController -> sendMsg(SH_MSG_READ_VALUE,_inProviderAddr+1,0); //duration
-   //if( inputValue >= BTN_PRESSED){//button pressed
-    _trigTime = millis();    
-   switch (_state){
-    case DIM_ST_OFF:
-                    if(inputValue >= BTN_LONG_PRESSED){
+   word timePressed = inputValue&0x7fff;
+   if(inputValue&0x8000)
+   { //button pressed
+        _trigTime = millis();    
+        switch (_state)
+        {
+            case DIM_ST_OFF:
+                    if(timePressed >= BTN_LONG_PRESSED){
                        _outState = DIM_VAL_MIN;
                        _state = DIM_ST_INC;
                     }
@@ -61,8 +60,8 @@ void Dimmer::process(){
                        _state = DIM_ST_AUTO_INC;//DIM_ST_ON;
                      }
                     break;
-	case DIM_ST_ON:
-                     if(inputValue >= BTN_LONG_PRESSED){
+            case DIM_ST_ON:
+                     if(timePressed >= BTN_LONG_PRESSED){
                        _state = DIM_ST_DEC;
                     }
                      else {
@@ -70,8 +69,8 @@ void Dimmer::process(){
                        _state = DIM_ST_OFF;
                      }
                     break;				
-    case DIM_ST_AUTO_INC:
-                     if(inputValue >= BTN_LONG_PRESSED){
+            case DIM_ST_AUTO_INC:
+                     if(timePressed >= BTN_LONG_PRESSED){
                        _state = DIM_ST_DEC;
                     }
                      else {
@@ -79,14 +78,14 @@ void Dimmer::process(){
                        _state = DIM_ST_OFF;
                      }
                     break; 
-    case DIM_ST_INC:
-                      if(inputValue >= BTN_PRESSED){
+            case DIM_ST_INC:
+                      if(timePressed >= BTN_PRESSED){
                        _outState += DIM_VAL_STEP;
                       if(_outState > DIM_VAL_MAX) _outState = DIM_VAL_MIN;
                      }   
                     break;
-    case DIM_ST_DEC:
-                      if(inputValue >= BTN_PRESSED)
+            case DIM_ST_DEC:
+                      if(timePressed >= BTN_PRESSED)
                       {                      
                       if(_outState < DIM_VAL_MIN+DIM_VAL_STEP) _outState = DIM_VAL_MAX;
                       else _outState -= DIM_VAL_STEP;
@@ -97,27 +96,27 @@ void Dimmer::process(){
    }
    else
    {
-    if( _state == DIM_ST_INC ||_state == DIM_ST_DEC )
-    { 
-        if(millis() -_trigTime > 1000 ) 
-        {
-        _state = DIM_ST_ON;	  
-        _trigTime = 0;
-        }
-    }
-    if( _state == DIM_ST_AUTO_INC)
-    {
-        if(millis() -_trigTime > 50)
-        {
-		   _outState++;
-	      _trigTime = millis();
-        }
-        if(_outState == DIM_VAL_MAX)
+        if( _state == DIM_ST_INC ||_state == DIM_ST_DEC )
         { 
-		   _state = DIM_ST_ON;	  
-		   _trigTime = 0;
-		}
-	}
+            if(millis() -_trigTime > 1000 ) 
+            {
+            _state = DIM_ST_ON;	  
+            _trigTime = 0;
+            }
+        }
+        if( _state == DIM_ST_AUTO_INC)
+        {
+            if(millis() -_trigTime > 50)
+            {
+                _outState++;
+                _trigTime = millis();
+            }
+            if(_outState == DIM_VAL_MAX)
+            { 
+                _state = DIM_ST_ON;	  
+                _trigTime = 0;
+            }
+        }   
    }
    if(currState != _outState)  pController -> sendMsg(SH_MSG_WRITE_VALUE,vProv,_outState);
 }
