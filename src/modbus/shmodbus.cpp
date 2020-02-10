@@ -3,9 +3,11 @@
  
 ModbusSmartHome::ModbusSmartHome(byte serNum, byte serSpeed, byte sId, byte txPin){
 long baud = ((long)serSpeed) * 1200;
+
  if(serNum==0) this -> config(&Serial, baud, SERIAL_8N1, txPin);
   else{
 #if defined __AVR_ATmega2560__
+
     this -> config(&Serial1, baud, SERIAL_8N1, txPin);
 #endif
     }

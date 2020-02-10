@@ -2,7 +2,7 @@ import serial
 import time
 #from serial import Serial
 
-portName = 'com3'
+portName = 'com6'
 baudrate = 38400
 timeoutSp=0.1 
 

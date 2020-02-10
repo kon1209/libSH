@@ -91,6 +91,7 @@ bool minModbusSerial::config(Serial_* port, long baud, u_int format, int txPin) 
 
 bool minModbusSerial::receive(byte* frame) {
     //first byte of frame = address
+
     byte address = frame[0];
     //Last two bytes = crc
     u_int crc = ((frame[_len - 2] << 8) | frame[_len - 1]);
@@ -101,14 +102,14 @@ bool minModbusSerial::receive(byte* frame) {
 	}
 
     //CRC Check
-	//Serial.print(crc,HEX);Serial.print(" - ");Serial.println(this->calcCrc(_frame[0], _frame, _len-2),HEX);
+	//Serial.print(crc,HEX);Serial.print(" - ");Serial.println(this->calcCrc(_frame[0], _frame+1, _len-3),HEX);
     if (crc != this->calcCrc(_frame[0], _frame+1, _len-3)) {
 		return false;
     }
 
     //PDU starts after first byte
     //framesize PDU = framesize - address(1) - crc(2)
-	
+
     this->receivePDU(frame+1);
     //No reply to Broadcasts
     if (address == 0xFF) _reply = MB_REPLY_OFF;

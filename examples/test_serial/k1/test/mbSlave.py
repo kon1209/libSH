@@ -15,7 +15,7 @@ class shModbusSlave():
         errCnt = self.sendData(inBuff, data)
         if(errCnt>0):
             return errCnt
-        time.sleep(0.2)     
+        time.sleep(0.1)     
         errCnt,tup= self.readData(outBuff, 20)    
         return errCnt, tup
 
@@ -46,15 +46,20 @@ class shModbusSlave():
     def sendFileAndExec(self, fName, sendAddr, respAddr):
         srcFile =  open(fName, "r")
         for commandStr in srcFile:
-            print(commandStr)
-            mbOut=commandStr.encode(encoding='utf_8', errors='strict')
-            errCnts,outTup = self.sendDataWithResponse(sendAddr, respAddr, mbOut)
-            if(errCnts>0):
-                print("R/W Error!")
-                quit()
-            outStr = ''.join([str(chr(i)) for i in outTup])
-            print(outStr)                      
+            self.execOneCommand(commandStr,sendAddr, respAddr) 
+            time.sleep(0.1)                     
         srcFile.close()   
+
+    def execOneCommand(self, commandStr, sendAddr, respAddr):
+        print(commandStr)
+        mbOut=commandStr.encode(encoding='utf_8', errors='strict')
+        errCnts,outTup = self.sendDataWithResponse(sendAddr, respAddr, mbOut)
+        if(errCnts>0):
+            print("R/W Error!")
+            quit()
+        outStr = ''.join([str(chr(i)) for i in outTup])
+        print(outStr)
+        return outStr                      
 
     def sendFileToEEPROM(self,fName, eepromAddr):
         srcFile =  open(fName, "r")
@@ -69,7 +74,7 @@ class shModbusSlave():
                 print("R/W Error!")
                 quit()
             writeAddr = writeAddr+addLen 
-            time.sleep(0.2)                   
+            time.sleep(0.5)                   
         srcFile.close()   
 
     def eraseEEPROM(self, eepromAddr, size, startAddr=0 ):  

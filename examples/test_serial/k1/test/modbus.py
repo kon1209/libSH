@@ -6,9 +6,9 @@ import modbus_tk.modbus_rtu as tkRtu
 import mbSlave
 
 
-portName = 'com30'
-baudrate = 38400
-timeoutSp=0.1 
+portName = 'com4'
+baudrate = 115200
+timeoutSp=0.2
 portNbr = 21
 slaveId=0xF0
 errCnts = 0
@@ -25,12 +25,18 @@ startTs = time.time()
 slave1 = mbSlave.shModbusSlave(slaveId,tkmc) 
 
 #stop console
-#sendData(slaveId,tkmc,0x00, [3,3])
+
 time.sleep(0.2)
+commandStr="0xd1.0=0x8400\n"
+slave1.execOneCommand(commandStr, 0x6400, 0x6400)
+time.sleep(0.2)
+
+quit()
 #eraseEEPROM(slaveId,tkmc,0xE000,100)
 #quit()
 #sendData(slaveId,tkmc,0x0700, [0x200])
-#slave1.sendFileAndExec( r"8but_8dim.txt", 0x6400, 0x6400)
+slave1.sendFileAndExec( r"out.txt", 0x6400, 0x6400)
+quit()
 #sendFileToEEPROM(tkmc,  r"e:/test/out2.txt", slaveId, 0xE0)
 time.sleep(0.2)
 #quit()

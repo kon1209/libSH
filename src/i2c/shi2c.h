@@ -9,11 +9,11 @@ class I2CExpander: public SmartHomeObject {
       byte _i2cAddr;
       bool _needWrite;
       bool _needRead;      
-      u16 _inPinValues = 0xff;
-	  u16 _outPinValues = 0xff;
+      u16 _inPinValues = 0xffff;
+	  u16 _outPinValues = 0xffff;
 	  void updatePins(void);
   public:
-      I2CExpander( byte i2cAddr){ _i2cAddr = i2cAddr; _needWrite = false; _needRead = false; }
+      I2CExpander( byte i2cAddr){ _i2cAddr = i2cAddr; _needWrite = true; _needRead = false; }
       virtual void process(void);
       virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
       virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);        
