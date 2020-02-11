@@ -15,37 +15,38 @@
 #define BTN_LONG_PRESSED 500
 #define BTN_PRESSED 50
 
-
-class Dimmer: public Pin {
-  protected:
-    byte _state;
-    word _outState; 
-    long _trigTime;
+struct DimmerParams{
     SmartHomeObjValue inputValue;
-  public:
-    Dimmer(SmartHomeObjAddr outProviderAddr);
-    Dimmer(word * params);
-    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
-    virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);
-    virtual void process(void);
+    byte state;
+    word outState; 
+    long trigTime; 
 };
 
-#define DIM_NUM 32
+
+class Dimmer: public Pin {
+    protected:
+        DimmerParams _params;
+    public:
+        Dimmer(SmartHomeObjAddr outProviderAddr);
+        Dimmer(word * params);
+        virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
+        virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);
+        virtual void process(void);
+};
+
+#define DIM_NUM 16
 
 
 class DimmerArray: public SmartHomeObject{
-  struct Dimmer{
-    byte _state;
-    word _outState; 
-    long _trigTime;
-    SmartHomeObjAddr _outProviderAddr;
-    SmartHomeObjAddr _inProviderAddr;   
-    }dimmers[DIM_NUM];
- word _index = 0 ;   
-  public:
-    DimmerArray(){};
-    virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId){};
-    virtual void process(void);
+        DimmerParams * _params;
+        SmartHomeObjAddr _baseAddr;
+        byte _arrSize;       
+      public:
+        DimmerArray(SmartHomeObjAddr baseAddr, SmartHomeObjValue arrSize);
+        virtual ~DimmerArray();	        
+        virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
+        virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);
+        virtual void process(void);
 };
 
 

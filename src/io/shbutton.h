@@ -8,13 +8,17 @@
 #define B_RELEASED 0
 #define BTN_PRESSED 50
 //
-#define BTN_NUM 32
+#define BTN_NUM 16
+struct ButtonParams{
+    byte state;
+    long timePressed;
+    word outState;
+};
+
 
 class Button: public Pin {
   protected:
-    byte _state;
-    long _timePressed;
-    byte _outState;
+    ButtonParams _params; 
     byte _inType;
   public:
     Button(SmartHomeObjAddr inProviderAddr, SmartHomeObjValue inType);
@@ -25,16 +29,14 @@ class Button: public Pin {
 
 
 
-class ButtonArray: public  SmartHomeObject   {
-struct Button{
-    SmartHomeObjAddr _inProviderAddr;
-    byte _state;
-    long _timePressed;
-    word _outState;
-} buttons[BTN_NUM];
-word _index = 0 ;
+class ButtonArray: public  SmartHomeObject {
+        ButtonParams * _params;
+        SmartHomeObjAddr _baseAddr;
+        byte _arrSize;
+        byte _inType;
   public:
-    ButtonArray(){};
+    ButtonArray(SmartHomeObjAddr baseAddr, SmartHomeObjValue arrSize, SmartHomeObjValue inType);
+    virtual ~ButtonArray();
     virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
     virtual void process(void);
 };
