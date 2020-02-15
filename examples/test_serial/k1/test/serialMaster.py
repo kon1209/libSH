@@ -14,7 +14,7 @@ class SHSerialTool:
     def sendDataWithResponse(self,data):
         print("Command:==> ",data)
         self.sendCommand(data)
-        time.sleep(0.01) 
+        time.sleep(0.2) 
         return self.readResponse()
 
     def openPort(self):      
@@ -69,14 +69,14 @@ class SHSerialTool:
     
     def readEEPROM(self,  size, eepromAddr="0xe0",  startAddr=0, buffSize=20 ):
         i=0
-        bufSzCnt=0
+        bufSzCnt=startAddr
        # self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr))
         srcFile =  open('out.txt', "wb")
         #time.sleep(0.1)
         while(i<size):
             strVal = self.sendDataWithResponse("print("+eepromAddr+","+str(bufSzCnt)+")\n")
             val=int(strVal[1:])
-            if (val == 0 or val == 255):
+            if (val ==0 or val == 255):
                 break
             srcFile.write(val.to_bytes(1, byteorder='big'))
             print(val)
@@ -90,11 +90,11 @@ class SHSerialTool:
 
     def getEEPROM(self,  size, eepromAddr="0xe0",  startAddr=0, buffSize=20 ):
         i=0
-        bufSzCnt=0
+        bufSzCnt=startAddr
        # self.sendDataWithResponse(eepromAddr+".0x81="+str(startAddr))
         srcFile =  open('out.txt', "wb")
         #time.sleep(0.1)
-        while(i<100):
+        while(i<size):
             strVal = self.sendDataWithResponse("getl(100,"+eepromAddr+","+str(bufSzCnt)+")\n")
             if len(strVal)<5:
                 break
@@ -111,11 +111,11 @@ class SHSerialTool:
         for commandStr in srcFile:
             print(commandStr)
             #print(outStr)
-            time.sleep(0.05)    
+            time.sleep(0.2)    
            # mbOut=commandStr.encode(encoding='utf_8', errors='strict')
             mbOut=eepromAddr+'.' + str(writeAddr) +'='+'"'+commandStr.rstrip('\n')+'"'+"\n"
             print(self.sendDataWithResponse(mbOut))
-            time.sleep(0.05) 
+            time.sleep(0.5) 
             writeAddr = writeAddr+len(commandStr)
             #time.sleep(0.2)
         srcFile.close() 
@@ -130,10 +130,10 @@ try:
     print("Waiting boot ...")
     time.sleep(2.0)
     #shCont.eraseEEPROM(size=20,startAddr=300) 
-    #shCont.sendFileToEEPROM(r"e:/test/test_3b.txt") 
-    #shCont.sendFileToEEPROM(r"e:/test/3but_1.txt") 
-    #shCont.getEEPROM(size=20,startAddr=0)  
-    shCont.sendFileAndExec(r"out.txt") 
+    #shCont.sendFileToEEPROM(r"3btn.txt") 
+
+   # shCont.getEEPROM(size=11,startAddr=0)  
+    shCont.sendFileAndExec(r"8but_8dim.txt") 
     #shCont.sendFileAndExec(r"e:/test/3but_1.txt")
     #ser.reset_input_buffer()              
     shCont.closePort()
