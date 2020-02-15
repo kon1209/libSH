@@ -9,7 +9,7 @@
 #define DIM_ST_AUTO_INC 2
 #define DIM_ST_INC 3
 #define DIM_ST_DEC 4
-#define DIM_VAL_MAX 0xf0
+#define DIM_VAL_MAX 0xff
 #define DIM_VAL_MIN 0x10
 #define DIM_VAL_STEP 20
 #define BTN_LONG_PRESSED 500

@@ -2,6 +2,7 @@
 #define SHI2C_H
 
 #include "shobject.h"
+#include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 //
 class I2CExpander: public SmartHomeObject {

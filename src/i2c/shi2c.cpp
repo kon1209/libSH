@@ -53,7 +53,9 @@ I2CPWM::I2CPWM(byte i2cAddr){
   _i2cAddr = i2cAddr;/* _needWrite = false; _needRead = false;*/ 
   pwm = Adafruit_PWMServoDriver(_i2cAddr);
   pwm.begin();
-  pwm.setPWMFreq(1200);  // This is the maximum PWM frequency
+  pwm.setOscillatorFrequency(27000000);  //new  The int.osc. is closer to 27MHz
+  pwm.setPWMFreq(100);  // This is the maximum PWM frequency
+    Wire.setClock(400000);//new 100 000 hz
   }
 
 void I2CPWM::writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal)

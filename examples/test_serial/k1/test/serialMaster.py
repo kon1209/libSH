@@ -60,7 +60,7 @@ class SHSerialTool:
         i=0    
         time.sleep(0.1)
         while(i<size):
-            outStr = self.sendDataWithResponse(eepromAddr+"."+ str(startAddr+i)+"=0xf5") 
+            outStr = self.sendDataWithResponse(eepromAddr+"."+ str(startAddr+i)+"=0") 
             print(outStr)
             time.sleep(0.05)
             i+=1
@@ -118,7 +118,8 @@ class SHSerialTool:
             time.sleep(0.5) 
             writeAddr = writeAddr+len(commandStr)
             #time.sleep(0.2)
-        srcFile.close() 
+        srcFile.close()
+        self.eraseEEPROM(size=5,startAddr=writeAddr) 
 
 
 
@@ -131,8 +132,8 @@ try:
     time.sleep(2.0)
     #shCont.eraseEEPROM(size=20,startAddr=300) 
     #shCont.sendFileToEEPROM(r"3btn.txt") 
-
-   # shCont.getEEPROM(size=11,startAddr=0)  
+    #shCont.sendFileToEEPROM(r"8but_8dim.txt") 
+    #shCont.getEEPROM(size=11,startAddr=0)  
     shCont.sendFileAndExec(r"8but_8dim.txt") 
     #shCont.sendFileAndExec(r"e:/test/3but_1.txt")
     #ser.reset_input_buffer()              
