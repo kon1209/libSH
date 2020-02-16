@@ -14,7 +14,7 @@ class SHSerialTool:
     def sendDataWithResponse(self,data):
         print("Command:==> ",data)
         self.sendCommand(data)
-        time.sleep(0.2) 
+        time.sleep(0.1) 
         return self.readResponse()
 
     def openPort(self):      
@@ -132,9 +132,9 @@ try:
     time.sleep(2.0)
     #shCont.eraseEEPROM(size=20,startAddr=300) 
     #shCont.sendFileToEEPROM(r"3btn.txt") 
-    #shCont.sendFileToEEPROM(r"8but_8dim.txt") 
+    shCont.sendFileToEEPROM(r"8but_8dim.txt") 
     #shCont.getEEPROM(size=11,startAddr=0)  
-    shCont.sendFileAndExec(r"8but_8dim.txt") 
+    #shCont.sendFileAndExec(r"8but_8dim.txt") 
     #shCont.sendFileAndExec(r"e:/test/3but_1.txt")
     #ser.reset_input_buffer()              
     shCont.closePort()
