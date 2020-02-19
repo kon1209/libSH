@@ -36,6 +36,7 @@ class ButtonArray: public  SmartHomeObject {
         byte _inType;
   public:
     ButtonArray(SmartHomeObjAddr baseAddr, SmartHomeObjValue arrSize, SmartHomeObjValue inType);
+    ButtonArray(word * params);
     virtual ~ButtonArray();
     virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
     virtual void process(void);

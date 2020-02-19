@@ -1,23 +1,32 @@
 #include "shi2c.h"
 //
-#define numBytes 1
+I2CExpander::I2CExpander( byte i2cAddr,SmartHomeObjValue expSize)
+{ _i2cAddr = i2cAddr;
+        _needWrite = true; 
+        _needRead = false;
+        _numBytes=expSize; 
+        }
+
+I2CExpander::I2CExpander(word * params):I2CExpander(params[0],params[1]){
+    
+}
+
 void I2CExpander::updatePins(void)
 {
 	//_inPinValues=0;
-	 Wire.beginTransmission((int)_i2cAddr);
-     int status = Wire.endTransmission();
-
-  if (0 == status){
-    if(Wire.requestFrom( (int)_i2cAddr,numBytes) == numBytes)
-	{		//request two bytes of data
-
-    //if(Wire.available())
-		//{
-       _inPinValues = Wire.read(); //read byte 1
-       //_inPinValues |= (Wire.read())<<8; //read byte 2
-        //}  
-  }		
-  }  
+	Wire.beginTransmission((int)_i2cAddr);
+    int status = Wire.endTransmission();
+    if (0 == status){
+        if(Wire.requestFrom( (int)_i2cAddr,_numBytes) == _numBytes)
+        {		
+        //if(Wire.available())
+            //{
+           _inPinValues = Wire.read(); //read byte 1
+           if(_numBytes>1){
+              _inPinValues |= (Wire.read())<<8; //read byte 2
+            }  
+        }		
+    }  
 }	
 
 void I2CExpander::process(void)

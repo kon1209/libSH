@@ -43,6 +43,7 @@ class DimmerArray: public SmartHomeObject{
         byte _arrSize;       
       public:
         DimmerArray(SmartHomeObjAddr baseAddr, SmartHomeObjValue arrSize);
+        DimmerArray(word * params);        
         virtual ~DimmerArray();	        
         virtual SmartHomeObjValue readValue(SmartHomeObjValueId valId);
         virtual void writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal);

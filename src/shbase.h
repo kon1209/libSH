@@ -38,8 +38,8 @@
 #define SHO_DIM  30
 #define SHO_BUF  40
 #define SHO_EEP  100
-#define SHO_BTNA  120
-#define SHO_DIMA  130
+#define SHO_BTNARR  120
+#define SHO_DIMARR  130
 //commands
 //
 #define SHC_NEW  1

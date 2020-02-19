@@ -161,7 +161,8 @@ DimmerArray::~DimmerArray(){
     free(_params);
 }   
 
-
+DimmerArray::DimmerArray(word * params):DimmerArray(params[0],params[1])
+{}
 
 SmartHomeObjValue DimmerArray::readValue(SmartHomeObjValueId valId)
 {

@@ -20,7 +20,7 @@ SmartHomeController::SmartHomeController(void){
                         #endif
                          break; 
                     case SHO_I2E:
-                          pObj = (SmartHomeObject *) new I2CExpander(params[1]);
+                          pObj = (SmartHomeObject *) new I2CExpander(&params[1]);
                            break;                         
                     case SHO_I2P:
                           pObj = (SmartHomeObject *) new I2CPWM(params[1]);
@@ -34,9 +34,15 @@ SmartHomeController::SmartHomeController(void){
                    case SHO_BTN:
                         pObj = (SmartHomeObject *) new Button(&params[1]);                      
                         break;
-                  case SHO_DIM:
+                   case SHO_DIM:
                         pObj = (SmartHomeObject *) new Dimmer(&params[1]);                      
-                        break;						
+                        break;
+                   case SHO_BTNARR:
+                        pObj = (SmartHomeObject *) new ButtonArray(&params[1]);                      
+                        break;
+                   case SHO_DIMARR:
+                        pObj = (SmartHomeObject *) new DimmerArray(&params[1]);                      
+                        break;								
                    case SHO_BLK:
                         pObj = (SmartHomeObject *) new Blinker(&params[1]);                      
                         break;     

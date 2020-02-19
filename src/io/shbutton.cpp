@@ -84,6 +84,9 @@ ButtonArray::~ButtonArray(){
     free(_params);
 }
 
+ButtonArray::ButtonArray(word * params):ButtonArray(params[0],params[1],params[2]){
+}
+
 SmartHomeObjValue ButtonArray::readValue(SmartHomeObjValueId valId){
   return readButtonValue(valId&0xf, &(_params[(valId&0x00f0)>>4]));
 }
