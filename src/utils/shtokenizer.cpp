@@ -77,9 +77,14 @@ byte shTokenizer::getParams(byte paramCnt, word * params)
                        
             }else //not numeric param
               {
+                  params[i] = 0;
+                  for (byte j = 0;j<strlen(spStr);j++){
+                    if(lType == spStr[j]) params[i] = lType;
+                  }
                  //if(lType == TTYPE_NAME) params[i] = shTokenizer::encodeID(ntok.ptok,ntok.len);               
                // else 
-					return 0xE2;   
+					if (params[i] == 0) return 0xE2; 
+                                  
               }
              lType = getToken(&ntok);
               if(lType == '.'){//object address via objId.valId

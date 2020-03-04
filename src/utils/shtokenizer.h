@@ -9,6 +9,8 @@
 #define TTYPE_EQ '='
 #define TTYPE_CEND ';'
 
+const char spStr[] ="<>+-*!&|^";
+
 struct tokAn{
   char * ptok;
   byte len;

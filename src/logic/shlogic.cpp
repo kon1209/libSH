@@ -4,9 +4,10 @@
 void logicStatement::process(void)
 {
   //  _pOutputs = 
-  word outVal;
+  SmartHomeObjValue outVal ;
+  SmartHomeObjValue tmp=0;
   for(int i=0; i < _inputNum;i++){
-	  if(_pInputs[i] == 0) return;
+	  if(_pInputs[i] == 0) return ;
 	  if(i==0){
 		  outVal = pController->sendMsg(SH_MSG_READ_VALUE, _pInputs[0], 0);
 		  continue;
@@ -33,8 +34,15 @@ void logicStatement::process(void)
     case OP_MULT:
                 break;
     case OP_MIN:
+                if(i==0) continue;
+                tmp = pController->sendMsg(SH_MSG_READ_VALUE, _pInputs[i], 0);
+		        if (tmp < outVal) outVal= tmp;    
                 break;
     case OP_MAX:
+                Serial.println("MAX");
+                if(i==0) continue;
+                tmp = pController->sendMsg(SH_MSG_READ_VALUE, _pInputs[i], 0);
+                if (tmp > outVal) outVal= tmp;   
                 break;
     case OP_MIN2PARAM:
                 break;     
@@ -44,8 +52,9 @@ void logicStatement::process(void)
             break;
     }
   }
-  
-	pController->sendMsg(SH_MSG_WRITE_VALUE, _pOutputs[0], outVal);
+  Serial.println(outVal);
+	//pController->sendMsg(SH_MSG_WRITE_VALUE, _pOutputs[0], outVal);
+     _pOutputs[0]= outVal;
 }        
 
 logicStatement::logicStatement(byte statement, byte inputNum ):SmartHomeObject()
@@ -55,12 +64,40 @@ logicStatement::logicStatement(byte statement, byte inputNum ):SmartHomeObject()
             _inputNum = inputNum;
             if(_statement == OP_MAX2PARAM ||  _statement == OP_MIN2PARAM) k = 2;
             _pInputs = (SmartHomeObjValue *) malloc((_inputNum*k)*2);
-            _pOutputs = (SmartHomeObjValue *) malloc(k*2);            
+            _pOutputs = (SmartHomeObjValue *) malloc(k*2);
+          for(int i=0; i < _inputNum;i++){
+          _pInputs[i] = 0;  }        
         }
+
+logicStatement::logicStatement(word * params):logicStatement(params[0],params[1]){}
         
  logicStatement::~logicStatement(void){
          if(_pInputs) free(_pInputs);
          if(_pOutputs) free(_pOutputs);
         }
 
+SmartHomeObjValue logicStatement::readValue(SmartHomeObjValueId valId)
+{
+     switch((valId&0xf0)>>4)
+    {
+       case 0: return _pOutputs[0] ; 
+              break;        
+       case 1: if(valId&0xf <=_inputNum  ) return _pInputs[valId&0xf] ; 
+              break;             
+    } 
+    return 0;
+}
+
+void logicStatement::writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shVal)
+{
+      switch((valId&0xf0)>>4)
+    {
+       case 0: // _pOutputs[0] = shVal; 
+              break;        
+       case 1: if(valId&0xf < _inputNum  )  _pInputs[valId&0xf] = shVal ; 
+              break;             
+    } 
+ 
+}        
+        
     

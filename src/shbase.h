@@ -37,6 +37,7 @@
 #define SHO_REPTR 25
 #define SHO_DIM  30
 #define SHO_BUF  40
+#define SHO_LOG  50
 #define SHO_EEP  100
 #define SHO_BTNARR  120
 #define SHO_DIMARR  130

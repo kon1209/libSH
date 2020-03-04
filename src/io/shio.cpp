@@ -87,8 +87,10 @@ outTrigger::outTrigger(word * params):outTrigger(params[0],params[1], params[2])
 } 
 
 void outTrigger::process(){ 
-    SmartHomeObjValue inVal = pController->sendMsg(SH_MSG_READ_VALUE, _inAddr,0);
-    if(inVal == 1){
+    SmartHomeObjValue inputValue = pController->sendMsg(SH_MSG_READ_VALUE, _inAddr,0);
+   // if(inVal == 1){
+    word timePressed = inputValue&0x7fff;
+   if(inputValue&0x8000){    
     _out = !(_out);
     pController->sendMsg(SH_MSG_WRITE_VALUE, vProv, _out);
     }

@@ -2,7 +2,7 @@ import serial
 import time
 #from serial import Serial
 
-portName = 'com7'
+portName = 'com6'
 baudrate = 38400
 timeoutSp=0.1 
 
@@ -131,10 +131,10 @@ try:
     print("Waiting boot ...")
     time.sleep(2.0)
     #shCont.eraseEEPROM(size=20,startAddr=300) 
-    shCont.sendFileToEEPROM(r"3btn_new.txt") 
-    #shCont.sendFileToEEPROM(r"8but_8dimArr.txt") 
+    #shCont.sendFileToEEPROM(r"3btn_new.txt") 
+    #shCont.sendFileToEEPROM(r"16but_16dimArr.txt") 
     #shCont.getEEPROM(size=11,startAddr=0)  
-    #shCont.sendFileAndExec(r"8but_8dimArr.txt") 
+    shCont.sendFileAndExec(r"16but_16dimArr_l.txt") 
     #shCont.sendFileAndExec(r"3btn_new.txt")
     #ser.reset_input_buffer()              
     shCont.closePort()

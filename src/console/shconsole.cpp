@@ -18,7 +18,8 @@ const funcDesc fDescs[]   ={ //objects
                    {"ser0",( SHP_EXIST | 1), SHO_SER}, 
                    {"trig",( SHP_EXIST | 3), SHO_TRIG},
                    {"rept",( SHP_EXIST | 3), SHO_REPTR},
-                   {"lnk",( SHP_EXIST | 2), SHO_LINK},                   
+                   {"lnk",( SHP_EXIST | 2), SHO_LINK}, 
+                   {"log",( SHP_EXIST | 2), SHO_LOG},                    
                    //commands                                  
                    {"del",( SHP_EXIST | 1), SHC_DEL},                  
                    {"ram",( SHP_NEEDOUT | SHP_EXIST | 1), SHC_RAM},                                      
