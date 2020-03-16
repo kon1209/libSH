@@ -39,7 +39,7 @@ void logicStatement::process(void)
 		        if (tmp < outVal) outVal= tmp;    
                 break;
     case OP_MAX:
-                Serial.println("MAX");
+                
                 if(i==0) continue;
                 tmp = pController->sendMsg(SH_MSG_READ_VALUE, _pInputs[i], 0);
                 if (tmp > outVal) outVal= tmp;   
@@ -52,7 +52,7 @@ void logicStatement::process(void)
             break;
     }
   }
-  Serial.println(outVal);
+  //Serial.println(outVal);
 	//pController->sendMsg(SH_MSG_WRITE_VALUE, _pOutputs[0], outVal);
      _pOutputs[0]= outVal;
 }        
@@ -82,7 +82,7 @@ SmartHomeObjValue logicStatement::readValue(SmartHomeObjValueId valId)
     {
        case 0: return _pOutputs[0] ; 
               break;        
-       case 1: if(valId&0xf <=_inputNum  ) return _pInputs[valId&0xf] ; 
+       case 1: if(valId&0xf < _inputNum  ) return _pInputs[valId&0xf] ; 
               break;             
     } 
     return 0;
@@ -94,7 +94,12 @@ void logicStatement::writeValue(SmartHomeObjValueId valId, SmartHomeObjValue shV
     {
        case 0: // _pOutputs[0] = shVal; 
               break;        
-       case 1: if(valId&0xf < _inputNum  )  _pInputs[valId&0xf] = shVal ; 
+       case 1:
+        byte vId = byte(valId&0xf);
+       if(vId < _inputNum  )
+       {
+
+        _pInputs[vId] = shVal ; }
               break;             
     } 
  
