@@ -7,9 +7,11 @@ long baud = ((long)serSpeed) * 1200;
  if(serNum==0) this -> config(&Serial, baud, SERIAL_8N1, txPin);
   else{
 #if defined __AVR_ATmega2560__
-
+    //this -> config(&Serial1, baud, SERIAL_8N1, txPin);
+#endif    
+//#elif defined __AVR_ATmega32U4__
     this -> config(&Serial1, baud, SERIAL_8N1, txPin);
-#endif
+
     }
   this -> setSlaveId(sId);  
     }
@@ -24,6 +26,8 @@ void ModbusSmartHome::addHreg(word offset, word value ){
  word ModbusSmartHome::Hreg(word offset) {   
     byte providerId = offset>>8;
     word bank = 0;
+    //Serial.println("Read Offset:"); 
+    //Serial.print(offset,HEX);
     //temporary fix for eeprom 16 banks x 256 = 4k 
     //should be replaced with read/write general reference
     if (providerId >0xe0 and providerId <0xf0){
@@ -42,6 +46,8 @@ void ModbusSmartHome::addHreg(word offset, word value ){
     word bank = 0;
     //temporary fix for eeprom 16 banks x 256 = 4k 
     //should be replaced with read/write general reference
+    //Serial.println("Write Offset:"); 
+    //Serial.print(offset,HEX);
     if (providerId >0xe0 and providerId <0xf0){
         bank = (providerId & 0xf)<<8;
         providerId = 0xe0;
