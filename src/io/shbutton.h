@@ -6,7 +6,7 @@
 //BUTTON
 #define B_PRESSED 1
 #define B_RELEASED 0
-#define BTN_PRESSED 50
+#define BTN_PRESSED 100
 //
 #define BTN_NUM 16
 struct ButtonParams{

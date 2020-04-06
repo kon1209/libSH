@@ -35,11 +35,24 @@ void processDimmer(DimmerParams * par)
    word timePressed = par->inputValue&0x7fff;
    if(par->inputValue&0x8000)
    { //button pressed
+        if(timePressed <= DIM_BTN_PRESSED){
+              if(timePressed==0) {
+                   par->outState = 0;
+                   par->state = DIM_ST_OFF;                  
+              }else{
+                  if(timePressed==50){
+                  par->outState = DIM_VAL_MAX;
+                  }else par->outState = timePressed*5;
+                  
+                   par->state = DIM_ST_ON;                  
+              }
+               return;
+        } 
         par->trigTime = millis();    
         switch (par->state)
         {
             case DIM_ST_OFF:
-                    if(timePressed >= BTN_LONG_PRESSED){
+                    if(timePressed >= DIM_BTN_LONG_PRESSED){
                        par->outState = DIM_VAL_MIN;
                        par->state = DIM_ST_INC;
                     }
@@ -49,7 +62,7 @@ void processDimmer(DimmerParams * par)
                      }
                     break;
             case DIM_ST_ON:
-                     if(timePressed >= BTN_LONG_PRESSED){
+                     if(timePressed >= DIM_BTN_LONG_PRESSED){
                        par->state = DIM_ST_DEC;
                     }
                      else {
@@ -58,7 +71,7 @@ void processDimmer(DimmerParams * par)
                      }
                     break;				
             case DIM_ST_AUTO_INC:
-                     if(timePressed >= BTN_LONG_PRESSED){
+                     if(timePressed >= DIM_BTN_LONG_PRESSED){
                        par->state = DIM_ST_DEC;
                     }
                      else {
@@ -67,13 +80,13 @@ void processDimmer(DimmerParams * par)
                      }
                     break; 
             case DIM_ST_INC:
-                      if(timePressed >= BTN_PRESSED){
+                      if(timePressed > DIM_BTN_PRESSED){
                        par->outState += DIM_VAL_STEP;
                       if(par->outState > DIM_VAL_MAX) par->outState = DIM_VAL_MIN;
                      }   
                     break;
             case DIM_ST_DEC:
-                      if(timePressed >= BTN_PRESSED)
+                      if(timePressed > DIM_BTN_PRESSED)
                       {                      
                       if(par->outState < DIM_VAL_MIN+DIM_VAL_STEP) par->outState = DIM_VAL_MAX;
                       else par->outState -= DIM_VAL_STEP;

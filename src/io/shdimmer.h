@@ -12,8 +12,8 @@
 #define DIM_VAL_MAX 0xff
 #define DIM_VAL_MIN 0x10
 #define DIM_VAL_STEP 20
-#define BTN_LONG_PRESSED 500
-#define BTN_PRESSED 50
+#define DIM_BTN_LONG_PRESSED 500
+#define DIM_BTN_PRESSED 100
 
 struct DimmerParams{
     SmartHomeObjValue inputValue;

@@ -181,8 +181,13 @@ void minModbusSerial::task() {
    
     byte i;
     _frame = (byte*) malloc(_len);
-    for (i=0 ; i < _len ; i++) _frame[i] = (*_port).read();
-
+    //Serial.print("Begin packet: ");
+    for (i=0 ; i < _len ; i++){
+        _frame[i] = (*_port).read();
+       // Serial.print(_frame[i],HEX);
+       // Serial.print(" ");
+    }
+   //     Serial.println(" : End packet");
     if (this->receive(_frame)) {
         if (_reply == MB_REPLY_NORMAL)
             this->sendPDU(_frame);

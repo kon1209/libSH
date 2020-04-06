@@ -77,6 +77,37 @@ class shModbusSlave():
             time.sleep(0.5)                   
         srcFile.close()   
 
+    def sendFileToEEPROMBin(self,fName, eepromAddr):
+        srcFile =  open(fName, "r")
+        startAddr = 0
+        errCnts = 0
+        writeAddr = (eepromAddr<<8) + startAddr
+        for commandStr in srcFile:
+            addLen = len(commandStr)
+            print(commandStr)
+            print(writeAddr)   
+            if addLen>20:
+                commandStr0=commandStr[0:20]
+                commandStr1=commandStr[20:]
+                mbOut=commandStr0.encode(encoding='utf_8', errors='strict')
+                errCnts = self.sendData(writeAddr, mbOut)
+                mbOut=commandStr1.encode(encoding='utf_8', errors='strict')
+                errCnts = self.sendData(writeAddr+20, mbOut)                
+                if(errCnts>0):
+                    print("R/W Error!")
+                    quit()
+            else:                               
+                mbOut=commandStr.encode(encoding='utf_8', errors='strict')
+                errCnts = self.sendData(writeAddr, mbOut)
+                if(errCnts>0):
+                    print("R/W Error!")
+                    quit()
+            writeAddr = writeAddr+addLen 
+            time.sleep(0.1) 
+        self._tkval.execute(self._slID, tkCst.WRITE_SINGLE_REGISTER, writeAddr, output_value=0x0)                      
+        srcFile.close()   
+
+
     def eraseEEPROM(self, eepromAddr, size, startAddr=0 ):  
         i=0
         time.sleep(0.1)

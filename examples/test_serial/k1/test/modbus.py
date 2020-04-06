@@ -27,18 +27,18 @@ slave1 = mbSlave.shModbusSlave(slaveId,tkmc)
 #stop console
 
 time.sleep(0.2)
-commandStr="0xd.0=0x8100\n"
+commandStr="0xd.0x0=0x8100\n"
 #commandStr="ram(0)\n"
 slave1.execOneCommand(commandStr, 0x6400, 0x6400)
 time.sleep(0.2)
 
-quit()
+
 #eraseEEPROM(slaveId,tkmc,0xE000,100)
 #quit()
 #sendData(slaveId,tkmc,0x0700, [0x200])
 #slave1.sendFileAndExec( r"out.txt", 0x6400, 0x6400)
 #quit()
-#sendFileToEEPROM(tkmc,  r"e:/test/out2.txt", slaveId, 0xE0)
+#slave1.sendFileToEEPROMBin(r"16but_16dimArr1.txt", 0xE0)
 time.sleep(0.2)
 #quit()
 commonTup=slave1.readEEPROM(0xE0,400)
